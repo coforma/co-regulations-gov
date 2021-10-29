@@ -1,0 +1,21 @@
+{
+  "name": "co-regulations-gov",
+  "version": "0.0.1",
+  "description": "Tool for grabbing and collating coments on regulations from regulations.gov",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coforma/co-regulations-gov"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "axios": "^0.24.0",
+    "dotenv": "^10.0.0",
+    "jsonexport": "^3.2.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "infinityplusone",
+  "license": "ISC"
+}

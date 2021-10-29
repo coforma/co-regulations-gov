@@ -1,0 +1,14 @@
+DS_Store
+**.log
+*.log
+cache
+
+# dependencies
+node_modules
+
+# env
+*.env
+
+# generated files
+output.csv
+output.json
