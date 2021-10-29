@@ -1,7 +1,7 @@
 {
   "name": "co-regulations-gov",
   "version": "0.0.1",
-  "description": "Tool for grabbing and collating coments on regulations from regulations.gov",
+  "description": "Tool for grabbing and collating comments on regulations from regulations.gov",
   "main": "index.js",
   "repository": {
     "type": "git",
