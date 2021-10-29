@@ -1,0 +1,62 @@
+extends layout
+
+block content
+  h1="Retrieve Document Comments"
+  div
+    span(id="status" class="status")  
+  form(id="form")
+    label(for="documentId") Document ID
+    input(id="input", required type="text", name="documentId", value="CMS-2021-0147-0001" placeholder="CMS-2021-0147-0001")
+    input(type="submit" value="Submit" onClick='(e) => getComments(e)')
+    
+  table(id="table")
+    thead
+      tr
+        th address1
+        th address2
+        th agencyId
+        th category
+        th city
+        th comment
+        th commentOn
+        th commentOnDocumentId
+        th country
+        th displayProperties
+        th docAbstract
+        th docketId
+        th documentType
+        th duplicateComments
+        th email
+        th fax
+        th field1
+        th field2
+        th fileFormats
+        th firstName
+        th govAgency
+        th govAgencyType
+        th lastName
+        th legacyId
+        th modifyDate
+        th objectId
+        th openForComment
+        th organization
+        th originalDocumentId
+        th pageCount
+        th phone
+        th postedDate
+        th postmarkDate
+        th reasonWithdrawn
+        th receiveDate
+        th restrictReason
+        th restrictReasonType
+        th stateProvinceRegion
+        th submitterRep
+        th submitterRepAddress
+        th submitterRepCityState
+        th subtype
+        th title
+        th trackingNbr
+        th withdrawn
+        th zip
+    tbody
+  
