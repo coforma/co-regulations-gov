@@ -40,19 +40,19 @@ const cleanCommentData = (c) => {
 }; // cleanCommentData
 
 const getPages = async (page) => {
-    console.log(`Getting Page: #${page}`);
     const resp = await axios.get(comments_url(page));
     if(!resp.statusText=='OK') throw new Error(`Response not OK for ${comments_url(page)}`);
-    // if(page===1) { // if the first time through, get the total number of pages and add to queue
-    //     pages = chunk(getRemainingPages(resp.data.meta.totalPages), 2);
-    //     console.log(`There are ${resp.data.meta.totalPages} pages`);
-    // }
-    // // get the comment JSON for each comment 
-    // let res = await Promise.all(resp.data.data.map(comment => { return axios.get(`${comment.links.self}?api_key=${API_KEY}`); }));
-    // let comment_data = await Promise.all(res.map(cleanCommentData));
-    // // let comment_data = resp.data.data.map(comment => comment.links.self); // for testing to avoid API hits
-    // return comment_data;
-    return [];
+    if(page===1) { // if the first time through, get the total number of pages and add to queue
+        pages = chunk(getRemainingPages(resp.data.meta.totalPages), 2);
+        console.log(`There are ${resp.data.meta.totalPages} pages`);
+    }
+
+    // get the comment JSON for each comment
+    console.log(`Getting comments for Page: #${page}`);
+    let res = await Promise.all(resp.data.data.map(comment => { return axios.get(`${comment.links.self}?api_key=${API_KEY}`); }));
+    let comment_data = await Promise.all(res.map(cleanCommentData));
+    // let comment_data = resp.data.data.map(comment => comment.links.self); // for testing to avoid API hits
+    return comment_data;
 }; // getPages
 
 const getComments = async (pages) => {
@@ -60,11 +60,11 @@ const getComments = async (pages) => {
     return comments.flat();
 }; // getComments
 
-
+// Let's go!
 (async () => {
     // first, let's get the first page of results
     all_comments = await getComments([1]);
-    
+
     while(pages.length>0) {
         let next_pages = pages.shift();
         await new Promise(resolve => setTimeout(resolve, DELAY)); // wait a bit
@@ -73,7 +73,7 @@ const getComments = async (pages) => {
     }
     all_comments.sort();
     console.log(`There are ${all_comments.length} comments`);
-    
+
     // write the results to JSON
     fs.writeFile('output.json', JSON.stringify(all_comments, null, 4), 'utf8', function(err) {
         if (err) {
@@ -82,7 +82,7 @@ const getComments = async (pages) => {
         }
         console.log('JSON file has been saved.');
     });
-    
+
     // write the results to CSV
     jsonexport(all_comments, {rowDelimiter: ','}, function(err, csv) {
         if (err) return console.error(err);
@@ -95,3 +95,4 @@ const getComments = async (pages) => {
         });
     });
 })();
+
