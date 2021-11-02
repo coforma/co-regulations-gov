@@ -34,6 +34,10 @@ input[type="text"] {
   color: blue;
 }
 
+.table-container {
+  overflow: scroll;
+}
+
 table {
   margin: 0 auto;
   color: #333;
