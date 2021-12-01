@@ -30,19 +30,12 @@ You'll need the parent document ID by navigating there on regulations.gov.
 Then, in project folder, run:
 
 ```sh
-$ node index.js DOCUMENT_ID
+$ node app/app.js
 ```
 
-For example, if the document ID is `CMS-2021-0147-0001`, you would use:
+You can now use the interface at: http://localhost:3000/
 
-```sh
-$ node index.js CMS-2021-0147-0001
-```
-
-When the script is complete, it will generate two files:
-
-* `output.json` – JSON output of all comment data
-* `output.csv` – CSV output of all comment data
+Try `CMS-2021-0147-0001` to test.
 
 **Note:** The script might take awhile to run, due to adherence to the API's rate limits.
 
