@@ -3,7 +3,7 @@ const dotenv = require("dotenv").config().parsed;
 
 const COMMENTS_URL = "https://api.regulations.gov/v4/comments";
 // 61000
-const DELAY = 10000;
+const DELAY = 10;
 const { API_KEY } = dotenv;
 
 const getComments = async (DOCUMENT_ID, emitResult) => {
