@@ -1,14 +1,15 @@
 extends layout
 
 block content
-  h1="Retrieve Document Comments"
-  div
-    span(id="status" class="status") Status: default
-  form(id="form")
-    label(for="documentId") Document ID
-    input(id="input", required type="text", name="documentId", value="CMS-2021-0147-0001" placeholder="CMS-2021-0147-0001")
-    input(type="submit" value="Submit" onClick='(e) => getComments(e)')
-    
-  div(class="table-container")
-    table(id="table")
+  div(class="grid-container")
+    h1="Retrieve Document Comments"
+    div
+      span(id="status" class="status") Status: default
+    form(id="form" class="usa-form")
+      label(for="documentId" class="usa-label") Document ID
+      input(id="input", required type="text", name="documentId", value="CMS-2021-0147-0001" placeholder="CMS-2021-0147-0001" class="usa-input")
+      input(type="submit" value="Submit" onClick='(e) => getComments(e)' class="usa-button")
+      
+    div(class="usa-table-container--scrollable margin-top-3 border-1px" tabindex="0")
+      table(id="table" class="usa-table")
   
