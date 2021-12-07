@@ -15,7 +15,7 @@ $ npm install
 1. Go to https://open.gsa.gov/api/regulationsgov/ and request an API KEY. The API KEY should arrive by email within a few minutes.
 
 2. Create a file in the project folder called `.env`.
-    The contents of that file should be:
+   The contents of that file should be:
 
 ```conf
 API_KEY=DEMO_KEY
@@ -30,7 +30,7 @@ You'll need the parent document ID by navigating there on regulations.gov.
 Then, in project folder, run:
 
 ```sh
-$ node app/app.js
+$ npm start
 ```
 
 You can now use the interface at: http://localhost:3000/
