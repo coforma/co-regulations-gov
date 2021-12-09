@@ -50,8 +50,8 @@
 		"node": true
 	},
 	"scripts": {
-		"start": "concurrently \"node ./app/app\" \"gulp\"",
-		"start:dev": "nodemon ./app/app.js",
+		"start": "node ./app/app",
+		"start:dev": "concurrently \"node ./app/app\" \"gulp\"",
 		"cli": "node ./index.js",
 		"lint": "eslint \"./app/**/*.js\"",
 		"format": "prettier --write \"./app/**/*.js\""

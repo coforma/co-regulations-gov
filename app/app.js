@@ -46,7 +46,6 @@ const q = new Queue(async function (documentId, cb) {
 });
 
 q.on("task_finish", function () {
-  // This will emit the event to all connected sockets!!!
   io.emit("complete", {});
 });
 q.on("task_failed", function (taskId, err, stats) {
