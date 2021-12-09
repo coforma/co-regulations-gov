@@ -30,7 +30,7 @@ You'll need the parent document ID by navigating there on regulations.gov.
 Then, in project folder, run:
 
 ```sh
-$ npm start
+$ npm start:dev
 ```
 
 You can now use the interface at: http://localhost:3000/
