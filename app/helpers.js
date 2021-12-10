@@ -1,5 +1,3 @@
-const debug = require("debug")("test:server");
-
 /**
  * Event listener for HTTP server "error" event.
  */
@@ -29,9 +27,11 @@ function onError(error) {
  * Event listener for HTTP server "listening" event.
  */
 function onListening(server) {
-  const addr = server.address();
-  const bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
-  debug("Listening on " + bind);
+  const addr = server.address() || "localhost";
+  const { address, port } = addr;
+  console.log(
+    `Listening on http://${address === "::" ? "localhost" : address}:${port}/`
+  );
 }
 
 module.exports = { onError, onListening };
