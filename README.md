@@ -14,13 +14,7 @@ $ npm install
 
 1. Go to https://open.gsa.gov/api/regulationsgov/ and request an API KEY. The API KEY should arrive by email within a few minutes.
 
-2. Make a copy of `./dev.env` as `/.env`.
-   The contents of that file should be:
-
-```conf
-API_KEY={String}
-DELAY={Integer}
-```
+2. Make a copy of `./dev.env` as `/.env` and add your API KEY.
 
 ## Usage
 

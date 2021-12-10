@@ -8,7 +8,7 @@ const http = require("http");
 const { Server } = require("socket.io");
 
 const { onError, onListening } = require("./helpers");
-const { getComments } = require("./services/comments");
+const { getDocumentComments } = require("./services/comments");
 
 /**
  * Create HTTP server.
@@ -18,7 +18,7 @@ const port = process.env.PORT || "3000";
 const server = http.createServer(app);
 server.listen(port);
 server.on("error", onError);
-server.on("listening", function () {
+server.on("listening", () => {
   return onListening(server);
 });
 app.set("views", path.join(__dirname, "views"));
@@ -47,9 +47,9 @@ io.on("connection", (client) => {
 /**
  * Queue
  */
-const q = new Queue(async function (task, cb) {
+const q = new Queue(async (task, cb) => {
   const { clientId, documentId } = task;
-  const comments = await getComments({
+  const comments = await getDocumentComments({
     clientId,
     documentId,
     callback: ({ clientId, comment }) => {
@@ -59,36 +59,36 @@ const q = new Queue(async function (task, cb) {
   cb(null, comments);
 });
 
-q.on("task_finish", function () {
+q.on("task_finish", () => {
   io.emit("complete", {});
 });
-q.on("task_failed", function (taskId, err, stats) {
+q.on("task_failed", (taskId, err, stats) => {
   console.log({ taskId, err, stats });
 });
-q.on("empty", function () {
+q.on("empty", () => {
   console.log("Queue empty.");
 });
 
 /**
  * Routing
  */
-app.get("/", function (req, res) {
+app.get("/", (req, res) => {
   res.render("index", { title: "Express" });
 });
 
-app.post("/comments", function (req, res) {
+app.post("/comments", (req, res) => {
   const { clientId, documentId } = req.body;
   q.push({ clientId, documentId });
   res.json({ clientId, documentId });
 });
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   next(createError(404));
 });
 
 // error handler
-app.use(function (err, req, res, next) {
+app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};

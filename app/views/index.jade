@@ -8,8 +8,8 @@ block content
     form(id="form" class="usa-form")
       label(for="documentId" class="usa-label") Document ID
       input(id="input", required type="text", name="documentId", value="CMS-2021-0147-0001" placeholder="CMS-2021-0147-0001" class="usa-input")
-      input(type="submit" value="Submit" onClick='(e) => getComments(e)' class="usa-button")
+      input(type="submit" value="Submit" onClick='(e) => getDocumentComments(e)' class="usa-button")
       
-    div(class="usa-table-container--scrollable margin-top-3 border-1px" tabindex="0")
+    div(id="table-container" class="usa-table-container--scrollable margin-top-3" tabindex="0")
       table(id="table" class="usa-table")
   

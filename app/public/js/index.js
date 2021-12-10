@@ -1,9 +1,12 @@
-// elements
+// Elements
 const $form = document.getElementById("form");
 const $input = document.getElementById("input");
+const $tableContainer = document.getElementById("table-container");
 const $table = document.getElementById("table");
 const $status = document.getElementById("status");
 
+// These are the properties available for each Comment,
+// by commenting out a row it'll be hidden in the Table, and vice-versa.
 const keys = [
   // { value: "address1", label: "Address 1" },
   // { value: "address2", label: "Address 2" },
@@ -62,10 +65,12 @@ const setupTable = () => {
     column.innerHTML = key.label;
   });
   $table.createTBody();
+  if (!$tableContainer.classList.contains("border-1px")) {
+    $tableContainer.classList.add("border-1px");
+  }
 };
 
 const addTableRow = (data) => {
-  console.log(data);
   const $tbody = $table.getElementsByTagName("tbody")[0];
   const row = $tbody.insertRow();
   keys.forEach((key, index) => {
@@ -141,6 +146,7 @@ $input.addEventListener("input", (event) => {
     setState("Complete");
   });
   socket.on("comment", (data) => {
+    console.log(data);
     addTableRow(data);
   });
 })();

@@ -5,7 +5,7 @@ const axios = require('axios');
 const fs = require('fs');
 const jsonexport = require('jsonexport');
 
-const COMMENTS_URL = 'https://api.regulations.gov/v4/comments';
+const COMMENTS_URL = process.env.COMMENTS_URL;
 const DELAY = process.env.DELAY;
 const API_KEY = process.env.API_KEY;
 
