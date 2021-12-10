@@ -6,7 +6,7 @@ const fs = require('fs');
 const jsonexport = require('jsonexport');
 
 const COMMENTS_URL = 'https://api.regulations.gov/v4/comments';
-const DELAY = 61000;
+const DELAY = process.env.DELAY;
 const API_KEY = process.env.API_KEY;
 
 // generates comments list URL based on API_KEY, DOCUMENT_ID, and a page number

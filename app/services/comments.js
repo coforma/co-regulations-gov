@@ -2,8 +2,7 @@ const axios = require("axios");
 const dotenv = require("dotenv").config().parsed;
 
 const COMMENTS_URL = "https://api.regulations.gov/v4/comments";
-const DELAY = 10;
-const { API_KEY } = dotenv;
+const { API_KEY, DELAY } = dotenv;
 
 const getComments = async ({ clientId, documentId, callback }) => {
   const getCommentUrlsByPage = async (page) => {
