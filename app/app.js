@@ -34,14 +34,28 @@ app.use(
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+/**
+ * Connections
+ */
 const io = new Server(server);
-const emitResult = (result) => io.emit("result", result);
+io.on("connection", (client) => {
+  // forward the client their ID so they can include in their requests
+  // to ensure they'll be the only one receiving comments for their particular Document
+  client.send(client.id);
+});
 
 /**
  * Queue
  */
-const q = new Queue(async function (documentId, cb) {
-  const comments = await getComments(documentId, emitResult);
+const q = new Queue(async function (task, cb) {
+  const { clientId, documentId } = task;
+  const comments = await getComments({
+    clientId,
+    documentId,
+    callback: ({ clientId, comment }) => {
+      io.to(clientId).emit("comment", comment);
+    },
+  });
   cb(null, comments);
 });
 
@@ -63,9 +77,9 @@ app.get("/", function (req, res) {
 });
 
 app.post("/comments", function (req, res) {
-  const { documentId } = req.body;
-  q.push(documentId);
-  res.json({ documentId });
+  const { clientId, documentId } = req.body;
+  q.push({ clientId, documentId });
+  res.json({ clientId, documentId });
 });
 
 // catch 404 and forward to error handler

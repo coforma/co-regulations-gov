@@ -5,12 +5,12 @@ const COMMENTS_URL = "https://api.regulations.gov/v4/comments";
 const DELAY = 10;
 const { API_KEY } = dotenv;
 
-const getComments = async (DOCUMENT_ID, emitResult) => {
+const getComments = async ({ clientId, documentId, callback }) => {
   const getCommentUrlsByPage = async (page) => {
     try {
       const res = await axios({
         method: "get",
-        url: `${COMMENTS_URL}?filter[searchTerm]=${DOCUMENT_ID}&api_key=${API_KEY}&page[number]=${page}`,
+        url: `${COMMENTS_URL}?filter[searchTerm]=${documentId}&api_key=${API_KEY}&page[number]=${page}`,
       });
       return res.data;
     } catch (error) {
@@ -52,7 +52,7 @@ const getComments = async (DOCUMENT_ID, emitResult) => {
 
   for (let i = 0; i < commentUrls.length; i++) {
     const comment = await getCommentByUrl(commentUrls[i]);
-    emitResult(comment);
+    callback({ clientId, comment });
     allComments.push(comment);
     await new Promise((resolve) => setTimeout(resolve, DELAY));
   }

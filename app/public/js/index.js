@@ -75,6 +75,7 @@ const addTableRow = (data) => {
 };
 
 const state = {
+  clientId: null,
   documentId: "",
   status: "default",
 };
@@ -99,11 +100,13 @@ const setState = (status) => {
 $form.addEventListener("submit", async (event) => {
   event.preventDefault();
   const documentId = document.querySelector(`[name="documentId"]`).value;
+  const { clientId } = state;
 
-  if (documentId) {
+  if (documentId && clientId) {
     setState("Loading");
     fetch("/comments", {
       body: JSON.stringify({
+        clientId: clientId,
         documentId,
       }),
       headers: {
@@ -130,6 +133,14 @@ $input.addEventListener("input", (event) => {
 
 (() => {
   const socket = io.connect("http://localhost:3000");
-  socket.on("complete", () => setState("Complete"));
-  socket.on("result", (data) => addTableRow(data));
+  socket.on("connect", () => {
+    state.clientId = socket.id;
+    console.log({ client: socket.id });
+  });
+  socket.on("complete", () => {
+    setState("Complete");
+  });
+  socket.on("comment", (data) => {
+    addTableRow(data);
+  });
 })();

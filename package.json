@@ -50,7 +50,7 @@
 		"node": true
 	},
 	"scripts": {
-		"start": "node ./app/app",
+		"start": "nodemon ./app/app.js",
 		"start:dev": "concurrently \"node ./app/app\" \"gulp\"",
 		"cli": "node ./index.js",
 		"lint": "eslint \"./app/**/*.js\"",
