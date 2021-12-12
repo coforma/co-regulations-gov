@@ -16,14 +16,14 @@ $ npm install
 
 2. Make a copy of `./dev.env` as `/.env` and add your API KEY.
 
-## Usage
+## Web Application Usage
 
-You'll need the parent document ID by navigating there on regulations.gov.
+You'll need the parent Document ID which may be obtained by navigating to that particular Document on regulations.gov.
 
-Then, in project folder, run:
+Then, in the project folder, run:
 
 ```sh
-$ npm start:dev
+$ npm start
 ```
 
 You can now use the interface at: http://localhost:3000/
@@ -31,6 +31,16 @@ You can now use the interface at: http://localhost:3000/
 Try `CMS-2021-0147-0001` to test.
 
 **Note:** The script might take awhile to run, due to adherence to the API's rate limits.
+
+## CLI
+
+Running the following command:
+
+```sh
+$  npm run cli {DOCUMENT_ID}
+```
+
+Will output the results to `output.csv` and `output.json` in the project root.
 
 ### Limitations
 
