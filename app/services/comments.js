@@ -3,12 +3,13 @@ const utils = require("./utils");
 
 const { API_KEY, COMMENTS_URL, DELAY } = dotenv;
 
-const getDocumentComments = async ({ clientId, documentId, callback }) => {
+const getDocumentComments = async ({ callback, clientId, documentId }) => {
   const commentsData = await getAllCommentsData(documentId);
   const commentsLinks = getLinks(commentsData);
   const comments = await Promise.all(
     commentsLinks.map(async (link) => {
       const comment = await requestCommentDetails(link);
+      // updates UI with each new Comment as they become available
       callback({ clientId, comment });
       await new Promise((resolve) => setTimeout(resolve, DELAY));
       return comment;
