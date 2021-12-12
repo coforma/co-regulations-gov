@@ -1,62 +1,61 @@
 {
-	"name": "co-regulations-gov",
-	"version": "0.0.1",
-	"description": "Tool for grabbing and collating comments on regulations from regulations.gov",
-	"main": "index.js",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/coforma/co-regulations-gov"
-	},
-	"private": true,
-	"dependencies": {
-		"bee-queue": "^1.4.0",
-		"better-queue": "^3.8.10",
-		"body-parser": "^1.19.0",
-		"cookie-parser": "^1.4.5",
-		"debug": "^4.3.2",
-		"express": "^4.17.1",
-		"http-errors": "^1.8.0",
-		"jade": "^1.11.0",
-		"morgan": "^1.10.0",
-		"socket.io": "^4.3.1",
-		"socket.io-client": "^4.3.2"
-	},
-	"devDependencies": {
-		"autoprefixer": "^10.4.0",
-		"axios": "^0.24.0",
-		"concurrently": "^6.4.0",
-		"del": "^6.0.0",
-		"dotenv": "^10.0.0",
-		"eslint": "^8.1.0",
-		"eslint-config-prettier": "^8.3.0",
-		"eslint-plugin-prettier": "^4.0.0",
-		"gulp": "^4.0.2",
-		"gulp-postcss": "^9.0.1",
-		"gulp-rename": "^2.0.0",
-		"gulp-replace": "^1.1.3",
-		"gulp-sass": "^5.0.0",
-		"gulp-sourcemaps": "^3.0.0",
-		"gulp-svg-sprite": "^1.5.0",
-		"jsonexport": "^3.2.0",
-		"nodemon": "^2.0.14",
-		"postcss": "^8.4.4",
-		"postcss-csso": "^5.0.1",
-		"prettier": "^2.4.1",
-		"sass": "^1.44.0",
-		"uswds": "^2.12.2",
-		"uswds-gulp": "github:uswds/uswds-gulp"
-	},
-	"env": {
-		"node": true
-	},
-	"scripts": {
-		"start": "node ./app/app.js",
-		"start:dev": "nodemon ./app/app.js",
-		"start:dev-gulp": "concurrently \"node ./app/app\" \"gulp\"",
-		"cli": "node ./index.js",
-		"lint": "eslint \"./app/**/*.js\"",
-		"format": "prettier --write \"./app/**/*.js\""
-	},
-	"author": "infinityplusone",
-	"license": "ISC"
+  "name": "co-regulations-gov",
+  "version": "0.0.1",
+  "description": "Tool for grabbing and collating comments on regulations from regulations.gov",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coforma/co-regulations-gov"
+  },
+  "private": true,
+  "dependencies": {
+    "better-queue": "^3.8.10",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "debug": "^4.3.2",
+    "express": "^4.17.1",
+    "http-errors": "^1.8.0",
+    "jade": "^1.11.0",
+    "morgan": "^1.10.0",
+    "socket.io": "^4.3.1",
+    "socket.io-client": "^4.3.2"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.0",
+    "axios": "^0.24.0",
+    "concurrently": "^6.4.0",
+    "del": "^6.0.0",
+    "dotenv": "^10.0.0",
+    "eslint": "^8.1.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "gulp": "^4.0.2",
+    "gulp-postcss": "^9.0.1",
+    "gulp-rename": "^2.0.0",
+    "gulp-replace": "^1.1.3",
+    "gulp-sass": "^5.0.0",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-svg-sprite": "^1.5.0",
+    "jsonexport": "^3.2.0",
+    "nodemon": "^2.0.14",
+    "postcss": "^8.4.4",
+    "postcss-csso": "^5.0.1",
+    "prettier": "^2.4.1",
+    "sass": "^1.44.0",
+    "uswds": "^2.12.2",
+    "uswds-gulp": "github:uswds/uswds-gulp"
+  },
+  "env": {
+    "node": true
+  },
+  "scripts": {
+    "start": "node ./app/app.js",
+    "start:dev": "nodemon ./app/app.js",
+    "start:dev-gulp": "concurrently \"node ./app/app\" \"gulp\"",
+    "cli": "node ./index.js",
+    "lint": "eslint \"./app/**/*.js\"",
+    "format": "prettier --write \"./app/**/*.js\""
+  },
+  "author": "infinityplusone",
+  "license": "ISC"
 }
