@@ -14,37 +14,33 @@ $ npm install
 
 1. Go to https://open.gsa.gov/api/regulationsgov/ and request an API KEY. The API KEY should arrive by email within a few minutes.
 
-2. Create a file in the project folder called `.env`.
-    The contents of that file should be:
+2. Make a copy of `./dev.env` as `/.env` and add your API KEY.
 
-```conf
-API_KEY=DEMO_KEY
-```
+## Web Application Usage
 
-_Replace `DEMO_KEY` with the key you receive by email._
+You'll need the parent Document ID which may be obtained by navigating to that particular Document on regulations.gov.
 
-## Usage
-
-You'll need the parent document ID by navigating there on regulations.gov.
-
-Then, in project folder, run:
+Then, in the project folder, run:
 
 ```sh
-$ node index.js DOCUMENT_ID
+$ npm start
 ```
 
-For example, if the document ID is `CMS-2021-0147-0001`, you would use:
+You can now use the interface at: http://localhost:3000/
 
-```sh
-$ node index.js CMS-2021-0147-0001
-```
-
-When the script is complete, it will generate two files:
-
-* `output.json` – JSON output of all comment data
-* `output.csv` – CSV output of all comment data
+Try `CMS-2021-0147-0001` to test.
 
 **Note:** The script might take awhile to run, due to adherence to the API's rate limits.
+
+## CLI
+
+Running the following command:
+
+```sh
+$  npm run cli {DOCUMENT_ID}
+```
+
+Will output the results to `output.csv` and `output.json` in the project root.
 
 ### Limitations
 
