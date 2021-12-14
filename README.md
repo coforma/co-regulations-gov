@@ -28,7 +28,7 @@ $ npm start
 
 You can now use the interface at: http://localhost:3000/
 
-Try `CMS-2021-0147-0001` to test.
+Try `CMS-2021-0168-0001` to test.
 
 **Note:** The script might take awhile to run, due to adherence to the API's rate limits.
 
@@ -45,3 +45,9 @@ Will output the results to `output.csv` and `output.json` in the project root.
 ### Limitations
 
 Though the script does account for rate limits, it doesn't do so exhaustively. The API's current rate limit is 500 per hour. Consequently, if there are over ~475 comments, it will likely begin to fail at some point.
+
+### Feedback
+
+We welcome any/all feedback/comments, including the creation of Issues and/or Pull requests to this repository. 
+
+Please direct any non-code feedback to: https://coforma.io/connect/
