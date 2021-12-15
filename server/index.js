@@ -53,7 +53,7 @@ io.on('connection', (client) => {
 const q = new Queue(async (task, cb) => {
   const { clientId, documentId } = task;
   const comments = await getDocumentComments({
-    callback: (comment) => {
+    onReceiveComment: (comment) => {
       io.to(clientId).emit('comment', comment);
     },
     documentId,

@@ -120,9 +120,6 @@ $form.addEventListener('submit', async (event) => {
       method: 'POST',
     })
       .then((response) => response.json())
-      .then(() => {
-        console.log('Request Made');
-      })
       .catch((error) => {
         setState('Default');
         console.error('Error:', error);
@@ -145,8 +142,12 @@ $input.addEventListener('input', (event) => {
   socket.on('comment', (data) => {
     addTableRow(data);
   });
-  socket.on('complete', (comments) => {
-    console.log(comments);
-    setState('Complete');
+  socket.on('complete', (data) => {
+    const { error } = data;
+    if (error) {
+      setState(error.message);
+    } else {
+      setState('Complete');
+    }
   });
 })();

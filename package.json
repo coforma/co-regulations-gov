@@ -49,10 +49,10 @@
     "node": true
   },
   "scripts": {
-    "start": "node ./app/app.js",
-    "start:dev": "nodemon ./app/app.js",
-    "start:dev-gulp": "concurrently \"node ./app/app\" \"gulp\"",
-    "cli": "node ./index.js",
+    "start": "node ./server/index.js",
+    "start:dev": "nodemon ./server/index.js",
+    "start:dev-gulp": "concurrently \"node ./server/index.js\" \"gulp\"",
+    "cli": "node ./cli.js",
     "lint": "eslint \"./app/**/*.js\"",
     "format": "prettier --write \"./app/**/*.js\""
   },

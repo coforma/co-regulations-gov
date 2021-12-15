@@ -3,26 +3,48 @@ const utils = require('../utils');
 
 const { API_KEY, COMMENTS_URL, DELAY } = dotenv;
 
-const getDocumentComments = async ({ callback, documentId }) => {
+const getDocumentComments = async ({ onReceiveComment, documentId }) => {
   const commentsData = await getAllCommentsData(documentId);
+  const { error } = commentsData;
+
+  // handles OVER_RATE_LIMIT
+  if (error) {
+    return {
+      comments: [],
+      error,
+    };
+  }
+
   const commentsLinks = getLinks(commentsData);
+
   const comments = await Promise.all(
     commentsLinks.map(async (link) => {
       const comment = await requestCommentDetails(link);
-      callback(comment);
+      onReceiveComment(comment);
       await new Promise((resolve) => setTimeout(resolve, DELAY));
       return comment;
     })
   );
-  return comments;
+  return {
+    comments,
+  };
 };
 
 const getAllCommentsData = async (documentId) => {
-  const { data: firstPageData, meta } = await requestCommentsPage({
+  const result = await requestCommentsPage({
     page: 1,
     documentId,
   });
-  const { totalPages } = meta;
+  const firstPageData = result.data;
+
+  if (firstPageData.error) {
+    return {
+      comments: [],
+      error: firstPageData.error,
+    };
+  }
+
+  const { totalPages } = result?.meta;
   const subsequentPages = Array(totalPages - 1)
     .fill()
     .map((_, i) => i + 2);
@@ -51,7 +73,7 @@ const requestCommentsPage = async ({ documentId, page }) => {
   );
 };
 
-const getLinks = (comments) => comments.map((comment) => comment.links.self);
+const getLinks = (comments) => comments.map((comment) => comment.links?.self);
 
 module.exports = {
   getAllCommentsData,
