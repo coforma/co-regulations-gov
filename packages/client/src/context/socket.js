@@ -1,6 +1,7 @@
 import { createContext } from 'react';
-import socketio from "socket.io-client";
+import socketio from 'socket.io-client';
 
-// TODO: handle URL
-export const socket = socketio.connect('http://localhost:3000');
+export const socket = socketio.connect(
+  `http://localhost:${process.env.REACT_APP_SERVER_PORT}`
+);
 export const SocketContext = createContext();

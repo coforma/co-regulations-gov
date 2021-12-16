@@ -1,11 +1,10 @@
 const createError = require('http-errors');
 const express = require('express');
-const path = require('path');
+const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const Queue = require('better-queue');
 const http = require('http');
-const { Server } = require('socket.io');
 
 const { getDocumentComments } = require('./services/comments');
 
@@ -37,10 +36,12 @@ app.use(
 app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(cors());
+
 /**
  * Connections
  */
-const io = new Server(server);
+const io = require('socket.io')(server, { cors: { origin: '*' } });
 io.on('connection', (client) => {
   // forward the client their ID so they can include in their requests
   // to ensure they'll be the only one receiving comments for their particular Document
@@ -79,7 +80,7 @@ q.on('empty', () => {
  * Routing
  */
 app.get('/', (req, res) => {
-  res.json({ message: "Server Ready" });
+  res.json({ message: 'Server Ready' });
 });
 
 app.post('/comments', (req, res) => {
