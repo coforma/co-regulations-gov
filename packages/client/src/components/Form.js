@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { SocketContext } from '../context/socket';
 
 const Form = () => {
@@ -7,6 +7,7 @@ const Form = () => {
   const [clientId, setClientId] = useState(null);
   const [comments, setComments] = useState([]);
   const [documentId, setDocumentId] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
   const [status, setStatus] = useState('Default');
 
   useEffect(() => {
@@ -45,6 +46,15 @@ const Form = () => {
       .catch((error) => setStatus(`Error ${error}`));
   };
 
+  const filteredComments = useMemo(() => {
+    return comments.filter((comment) => {
+      const commentString = JSON.stringify(
+        Object.values(comment).filter((c) => c !== null)
+      ).toLowerCase();
+      return commentString.includes(searchTerm.toLowerCase());
+    });
+  }, [comments, searchTerm]);
+
   return (
     <>
       <h1>Retrieve Document Comments</h1>
@@ -57,6 +67,7 @@ const Form = () => {
           Document ID
         </label>
         <input
+          id="documentId"
           className="usa-input"
           required
           type="text"
@@ -75,6 +86,21 @@ const Form = () => {
 
       {comments?.length ? (
         <div className="usa-table--compact margin-top-3" tabIndex="0">
+          <form>
+            <label className="usa-label" htmlFor="searchTerm">
+              Search
+            </label>
+            <input
+              className="usa-input"
+              required
+              id="searchTerm"
+              type="text"
+              name="searchTerm"
+              placeholder=""
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </form>
           <table className="usa-table">
             <thead>
               <tr>
@@ -128,7 +154,7 @@ const Form = () => {
               </tr>
             </thead>
             <tbody>
-              {comments.map((comment) => {
+              {filteredComments.map((comment) => {
                 if (!comment.objectId) return null;
                 return (
                   <tr key={comment.objectId}>
