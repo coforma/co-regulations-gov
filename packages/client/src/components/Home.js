@@ -63,7 +63,9 @@ const Home = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
             searchTerm={searchTerm}
           />
-          <Table comments={filteredComments} />
+          {filteredComments.length ? (
+            <Table comments={filteredComments} />
+          ) : null}
         </div>
       ) : null}
     </>
