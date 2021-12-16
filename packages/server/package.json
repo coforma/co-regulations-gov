@@ -1,33 +1,24 @@
 {
-  "name": "co-regulations-gov-server",
-  "version": "0.0.0",
-  "description": "Tool for grabbing and collating comments on regulations from regulations.gov",
-  "main": "cli.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/coforma/co-regulations-gov"
-  },
-  "private": true,
+  "author": "Coforma",
   "dependencies": {
     "axios": "^0.24.0",
     "better-queue": "^3.8.10",
     "body-parser": "^1.19.0",
-    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "debug": "^4.3.2",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "http-errors": "^1.8.0",
     "jsonexport": "^3.2.0",
     "morgan": "^1.10.0",
-    "pug": "^3.0.2",
     "socket.io": "^4.3.1",
     "socket.io-client": "^4.3.2"
   },
+  "description": "Tool for grabbing and collating comments on regulations from regulations.gov",
   "devDependencies": {
     "autoprefixer": "^10.4.0",
     "concurrently": "^6.4.0",
     "del": "^6.0.0",
-    "dotenv": "^10.0.0",
     "gulp": "^4.0.2",
     "gulp-postcss": "^9.0.1",
     "gulp-rename": "^2.0.0",
@@ -42,17 +33,21 @@
     "uswds": "^2.12.2",
     "uswds-gulp": "github:uswds/uswds-gulp"
   },
-  "env": {
-    "node": true
+  "license": "ISC",
+  "main": "cli.js",
+  "name": "co-regulations-gov-server",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coforma/co-regulations-gov"
   },
   "scripts": {
+    "cli": "node ./cli.js",
+    "format": "prettier --write \"./app/**/*.js\"",
+    "lint": "eslint \"./app/**/*.js\"",
     "start": "node ./index.js",
     "start:dev": "nodemon ./index.js",
-    "start:dev-gulp": "concurrently \"node ./index.js\" \"gulp\"",
-    "cli": "node ./cli.js",
-    "lint": "eslint \"./app/**/*.js\"",
-    "format": "prettier --write \"./app/**/*.js\""
+    "start:dev-gulp": "concurrently \"node ./index.js\" \"gulp\""
   },
-  "author": "infinityplusone",
-  "license": "ISC"
+  "version": "0.0.0"
 }

@@ -14,7 +14,7 @@ $ npm install
 
 1. Go to https://open.gsa.gov/api/regulationsgov/ and request an API KEY. The API KEY should arrive by email within a few minutes.
 
-2. Make a copy of `./dev.env` as `/.env` and add your API KEY.
+2. Make a copy of `./.env-example` as `/.env` and add your API KEY.
 
 ## Web Application Usage
 
@@ -48,6 +48,6 @@ Though the script does account for rate limits, it doesn't do so exhaustively. T
 
 ### Feedback
 
-We welcome any/all feedback/comments, including the creation of Issues and/or Pull requests to this repository. 
+We welcome any/all feedback/comments, including the creation of Issues and/or Pull requests to this repository.
 
 Please direct any non-code feedback to: https://coforma.io/connect/

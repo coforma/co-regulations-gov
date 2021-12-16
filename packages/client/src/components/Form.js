@@ -106,14 +106,11 @@ const Form = () => {
     });
   }, [addTableRow, socket]);
 
-  useEffect(() => {
-    console.log({ comments });
-  }, [comments]);
-
   const handleInput = (e) => {
     setDocumentId(e.target.value);
   };
 
+  console.log(comments[0]);
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -172,7 +169,13 @@ const Form = () => {
         tabIndex="0"
       >
         <table className="usa-table" id="table">
-          {comments}
+          {/* {comments.map((comment, i) => {
+            return (
+              <tr>
+                <td>{comment?.id}</td>
+              </tr>
+            );
+          })} */}
         </table>
       </div>
     </div>

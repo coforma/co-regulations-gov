@@ -1,20 +1,24 @@
 {
-  "name": "co-regulations-gov",
-  "private": true,
-  "scripts": {
-    "cli": "yarn workspace co-regulations-gov-server cli",
-    "client": "yarn workspace co-regulations-gov-client start",
-    "server": "yarn workspace co-regulations-gov-server start:dev",
-    "start": "concurrently --kill-others-on-fail \"yarn server\"  \"yarn client\""
-  },
-  "workspaces": [
-    "packages/*"
-  ],
+  "author": "Coforma",
   "dependencies": {
     "concurrently": "4.1.0",
     "eslint": "^8.4.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.5.1"
-  }
+  },
+  "name": "co-regulations-gov",
+  "private": true,
+  "scripts": {
+    "cli": "yarn workspace co-regulations-gov-server cli",
+    "client": "yarn workspace co-regulations-gov-client start",
+    "client:dev": "yarn workspace co-regulations-gov-client start",
+    "server": "yarn workspace co-regulations-gov-server start",
+    "server:dev": "yarn workspace co-regulations-gov-server start:dev",
+    "start": "concurrently --kill-others-on-fail \"yarn server\"  \"yarn client\"",
+    "start:dev": "concurrently --kill-others-on-fail \"yarn server:dev\"  \"yarn client:dev\""
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }
