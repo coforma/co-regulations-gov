@@ -15,28 +15,22 @@ const Form = () => {
     });
 
     socket.on('comment', (data) => {
-      // if overwhelms the browser with large data sets,
-      // consider handling in the "complete" event below
-      console.log(data.objectId);
-      // setComments([...comments, data]);
+      setComments((previous) => [...previous, data]);
     });
 
     socket.on('complete', (data) => {
-      setComments(data.comments);
       if (data?.error?.code === 'OVER_RATE_LIMIT') {
         setStatus('You have exceeded your rate limit. Try again later.');
       } else {
         setStatus(data.error ? data.error.message : 'Complete');
       }
     });
-  }, [comments, socket]);
+  }, [socket]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!clientId || !documentId) return null;
-
     setComments([]);
-
     fetch(`http://localhost:${process.env.REACT_APP_SERVER_PORT}/comments`, {
       body: JSON.stringify({
         clientId,

@@ -26,12 +26,11 @@ app.use(cors());
 const io = require('socket.io')(server, { cors: { origin: '*' } });
 
 io.on('connection', (client) => {
-  // forwards the client their ID to include in their requests
   client.send(client.id);
 });
 
 // Queue
-const worker = async (task, cb) => {
+const q = new Queue(async (task, cb) => {
   const { clientId, documentId } = task;
   const comments = await getDocumentComments({
     onReceiveComment: (comment) => {
@@ -40,9 +39,7 @@ const worker = async (task, cb) => {
     documentId,
   });
   cb(undefined, { clientId, comments });
-};
-
-const q = new Queue(worker);
+});
 
 q.on('task_finish', (_, result) => {
   const { clientId, comments } = result;
