@@ -44,9 +44,12 @@ const getAllCommentsData = async (documentId) => {
   }
 
   const totalPages = result?.meta?.totalPages;
-  const subsequentPages = Array(totalPages - 1)
-    .fill()
-    .map((_, i) => i + 2);
+
+  const subsequentPages = totalPages
+    ? Array(totalPages - 1)
+        .fill()
+        .map((_, i) => i + 2)
+    : [];
   const subsequentPageData = await Promise.all(
     subsequentPages.flatMap(async (page) => {
       const result = await requestCommentsPage({
