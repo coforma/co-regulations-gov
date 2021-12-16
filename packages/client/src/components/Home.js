@@ -30,13 +30,18 @@ const Home = () => {
     });
   }, [socket]);
 
-  const filteredComments = useMemo(() => {
-    return comments.filter((comment) => {
+  const filteredSortedComments = useMemo(() => {
+    if (!comments) return [];
+    const filtered = comments.filter((comment) => {
       const commentString = JSON.stringify(
         Object.values(comment).filter((c) => c !== null)
       ).toLowerCase();
       return commentString.includes(filterTerm.toLowerCase());
     });
+    const sortedCommentsData = filtered.sort(
+      (a, b) => new Date(b.postedDate) - new Date(a.postedDate)
+    );
+    return sortedCommentsData;
   }, [comments, filterTerm]);
 
   return (
@@ -66,8 +71,8 @@ const Home = () => {
             onChange={(e) => setfilterTerm(e.target.value)}
             filterTerm={filterTerm}
           />
-          {filteredComments.length ? (
-            <Table comments={filteredComments} />
+          {filteredSortedComments.length ? (
+            <Table comments={filteredSortedComments} />
           ) : null}
         </div>
       ) : null}
