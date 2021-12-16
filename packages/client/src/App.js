@@ -1,5 +1,5 @@
 import React from 'react';
-import { SocketContext, socket } from './context/socket';
+import { socket, SocketContext } from './context/socket';
 
 import Home from './components/Home';
 

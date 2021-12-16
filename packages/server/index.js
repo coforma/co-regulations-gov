@@ -15,6 +15,7 @@ server.listen(port, () => {
 server.on('error', (error) => {
   console.log({ error });
 });
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(

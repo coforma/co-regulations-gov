@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatDate } from '../utils';
 
 const Table = ({ comments = [] }) => {
   return (
@@ -57,6 +58,7 @@ const Table = ({ comments = [] }) => {
       <tbody>
         {comments.map((comment) => {
           if (!comment.objectId) return null;
+
           return (
             <tr key={comment.objectId}>
               <td>{comment.objectId}</td>
@@ -88,10 +90,10 @@ const Table = ({ comments = [] }) => {
               {/* <td>{comment.originalDocumentId}</td> */}
               {/* <td>{comment.pageCount}</td> */}
               {/* <td>{comment.phone}</td> */}
-              <td>{comment.postedDate}</td>
+              <td>{formatDate(comment.postedDate)}</td>
               {/* <td>{comment.postmarkDate}</td> */}
               {/* <td>{comment.reasonWithdrawn}</td> */}
-              <td>{comment.receiveDate}</td>
+              <td>{formatDate(comment.receiveDate)}</td>
               {/* <td>{comment.restrictReason}</td> */}
               {/* <td>{comment.restrictReasonType}</td> */}
               {/* <td>{comment.stateProvinceRegion}</td> */}
