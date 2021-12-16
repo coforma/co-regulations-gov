@@ -6,7 +6,6 @@ const Queue = require('better-queue');
 
 const { getDocumentComments } = require('./services/comments');
 
-// Server
 const app = express();
 const port = process.env.PORT || '3001';
 const server = http.createServer(app);
@@ -32,7 +31,7 @@ io.on('connection', (client) => {
 });
 
 // Queue
-const q = new Queue(async (task, cb) => {
+const worker = async (task, cb) => {
   const { clientId, documentId } = task;
   const comments = await getDocumentComments({
     onReceiveComment: (comment) => {
@@ -40,22 +39,21 @@ const q = new Queue(async (task, cb) => {
     },
     documentId,
   });
-  ``;
-  cb(null, { clientId, comments });
-});
+  cb(undefined, { clientId, comments });
+};
+
+const q = new Queue(worker);
 
 q.on('task_finish', (_, result) => {
   const { clientId, comments } = result;
   io.to(clientId).emit('complete', comments);
-});
-
-q.on('task_failed', (taskId, err, stats) => {
-  console.log({ taskId, err, stats });
-});
-
-q.on('empty', () => {
-  console.log('Queue empty.');
-});
+})
+  .on('task_failed', (taskId, err, stats) => {
+    console.log({ taskId, err, stats });
+  })
+  .on('empty', () => {
+    console.log('Queue empty.');
+  });
 
 // Routing
 require('./routes')(app, q);

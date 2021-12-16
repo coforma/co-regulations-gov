@@ -17,11 +17,12 @@ const Form = () => {
     socket.on('comment', (data) => {
       // if overwhelms the browser with large data sets,
       // consider handling in the "complete" event below
-      setComments([...comments, data]);
+      console.log(data.objectId);
+      // setComments([...comments, data]);
     });
 
     socket.on('complete', (data) => {
-      // setComments(data.comments);
+      setComments(data.comments);
       if (data?.error?.code === 'OVER_RATE_LIMIT') {
         setStatus('You have exceeded your rate limit. Try again later.');
       } else {
@@ -33,7 +34,9 @@ const Form = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!clientId || !documentId) return null;
+
     setComments([]);
+
     fetch(`http://localhost:${process.env.REACT_APP_SERVER_PORT}/comments`, {
       body: JSON.stringify({
         clientId,
@@ -44,26 +47,23 @@ const Form = () => {
       },
       method: 'POST',
     })
-      .then((response) => response.json())
-      .catch((error) => console.error('Error:', error));
+      .then((_) => setStatus('Loading'))
+      .catch((error) => setStatus(`Error ${error}`));
   };
 
   return (
-    <div className="grid-container">
+    <>
       <h1>Retrieve Document Comments</h1>
       <div>
-        <span className="status" id="status">
-          Status: {status}
-        </span>
+        <span className="text-primary-vivid">Status: {status}</span>
       </div>
 
-      <form className="usa-form" id="form">
+      <form className="usa-form">
         <label className="usa-label" htmlFor="documentId">
           Document ID
         </label>
         <input
           className="usa-input"
-          id="input"
           required
           type="text"
           name="documentId"
@@ -80,12 +80,8 @@ const Form = () => {
       </form>
 
       {comments?.length ? (
-        <div
-          className="usa-table-container--scrollable margin-top-3"
-          id="table-container"
-          tabIndex="0"
-        >
-          <table className="usa-table" id="table">
+        <div className="usa-table--compact margin-top-3" tabIndex="0">
+          <table className="usa-table">
             <thead>
               <tr>
                 <td>ID</td>
@@ -193,7 +189,7 @@ const Form = () => {
           </table>
         </div>
       ) : null}
-    </div>
+    </>
   );
 };
 
