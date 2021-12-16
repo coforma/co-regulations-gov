@@ -7,8 +7,14 @@
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.5.1"
   },
+  "description": "Tool for grabbing and collating comments on regulations from regulations.gov",
+  "license": "ISC",
   "name": "co-regulations-gov",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coforma/co-regulations-gov"
+  },
   "scripts": {
     "cli": "yarn workspace co-regulations-gov-server cli",
     "client": "yarn workspace co-regulations-gov-client start",
@@ -18,6 +24,7 @@
     "start": "concurrently --kill-others-on-fail \"yarn server\"  \"yarn client\"",
     "start:dev": "concurrently --kill-others-on-fail \"yarn server:dev\"  \"yarn client:dev\""
   },
+  "version": "0.0.0",
   "workspaces": [
     "packages/*"
   ]
