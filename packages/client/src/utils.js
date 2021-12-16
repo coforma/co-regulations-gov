@@ -1,1 +1,1 @@
-export const formatDate = (date) => new Date(date).toLocaleString('en-US');
+export const formatDate = (date) => date.toLocaleString('en-US');

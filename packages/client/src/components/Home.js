@@ -10,7 +10,7 @@ const Home = () => {
   const [clientId, setClientId] = useState(null);
   const [comments, setComments] = useState([]);
   const [filterTerm, setfilterTerm] = useState('');
-  const [status, setStatus] = useState('Default');
+  const [status, setStatus] = useState('Ready');
 
   useEffect(() => {
     socket.on('connect', () => {
@@ -32,16 +32,25 @@ const Home = () => {
 
   const filteredSortedComments = useMemo(() => {
     if (!comments) return [];
-    const filtered = comments.filter((comment) => {
-      const commentString = JSON.stringify(
-        Object.values(comment).filter((c) => c !== null)
-      ).toLowerCase();
-      return commentString.includes(filterTerm.toLowerCase());
-    });
-    const sortedCommentsData = filtered.sort(
-      (a, b) => new Date(b.postedDate) - new Date(a.postedDate)
+    return (
+      comments
+        .filter((comment) => {
+          // removes properties with null values, and converts to lowercase string
+          const commentString = JSON.stringify(
+            Object.values(comment).filter((c) => c !== null)
+          ).toLowerCase();
+          // checks to see if any value contains the filter string
+          return commentString.includes(filterTerm.toLowerCase());
+        })
+        .map((comment) => ({
+          ...comment,
+          // convert dates for sortings and formatting
+          postedDate: new Date(comment.postedDate),
+          receiveDate: new Date(comment.receiveDate),
+        }))
+        // sorts by postedDate by default
+        .sort((a, b) => b.postedDate - a.postedDate)
     );
-    return sortedCommentsData;
   }, [comments, filterTerm]);
 
   return (
