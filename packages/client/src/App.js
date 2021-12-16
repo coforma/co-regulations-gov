@@ -1,11 +1,11 @@
 import React from 'react';
 import { SocketContext, socket } from './context/socket';
 
-import Form from './components/Form';
+import Home from './components/Home';
 
 const App = () => (
   <SocketContext.Provider value={socket}>
-    <Form />
+    <Home />
   </SocketContext.Provider>
 );
 

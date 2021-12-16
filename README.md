@@ -30,7 +30,7 @@ $ yarn start
 
 You can now use the interface at: http://localhost:3000/
 
-Try `CMS-2021-0168-0001` to test.
+Try `NHTSA-2021-0001` to test.
 
 ## CLI
 
