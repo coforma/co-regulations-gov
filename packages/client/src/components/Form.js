@@ -12,16 +12,16 @@ const Form = () => {
   useEffect(() => {
     socket.on('connect', () => {
       setClientId(socket.id);
-      console.log({ client: socket.id });
     });
 
     socket.on('comment', (data) => {
-      // overwhelming the browser in this useEffect hook... consider alternatives
-      // setComments([...comments, data]);
+      // if overwhelms the browser with large data sets,
+      // consider handling in the "complete" event below
+      setComments([...comments, data]);
     });
 
     socket.on('complete', (data) => {
-      setComments(data.comments);
+      // setComments(data.comments);
       if (data?.error?.code === 'OVER_RATE_LIMIT') {
         setStatus('You have exceeded your rate limit. Try again later.');
       } else {
