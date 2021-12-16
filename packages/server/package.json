@@ -11,8 +11,7 @@
     "http-errors": "^1.8.0",
     "jsonexport": "^3.2.0",
     "morgan": "^1.10.0",
-    "socket.io": "^4.3.1",
-    "socket.io-client": "^4.3.2"
+    "socket.io": "^4.3.1"
   },
   "description": "Tool for grabbing and collating comments on regulations from regulations.gov",
   "devDependencies": {

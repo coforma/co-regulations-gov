@@ -6,7 +6,7 @@ const Form = () => {
 
   const [clientId, setClientId] = useState(null);
   const [comments, setComments] = useState([]);
-  const [documentId, setDocumentId] = useState('CMS-2021-0168-0001');
+  const [documentId, setDocumentId] = useState('');
   const [status, setStatus] = useState('Default');
 
   useEffect(() => {
@@ -67,6 +67,7 @@ const Form = () => {
           required
           type="text"
           name="documentId"
+          placeholder="CMS-****-****-****"
           value={documentId}
           onChange={(e) => setDocumentId(e.target.value)}
         />
