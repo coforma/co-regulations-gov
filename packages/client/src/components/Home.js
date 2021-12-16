@@ -9,7 +9,7 @@ const Home = () => {
   const socket = useContext(SocketContext);
   const [clientId, setClientId] = useState(null);
   const [comments, setComments] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [filterTerm, setfilterTerm] = useState('');
   const [status, setStatus] = useState('Default');
 
   useEffect(() => {
@@ -35,12 +35,12 @@ const Home = () => {
       const commentString = JSON.stringify(
         Object.values(comment).filter((c) => c !== null)
       ).toLowerCase();
-      return commentString.includes(searchTerm.toLowerCase());
+      return commentString.includes(filterTerm.toLowerCase());
     });
-  }, [comments, searchTerm]);
+  }, [comments, filterTerm]);
 
   return (
-    <>
+    <div className="padding-10">
       <h1>Retrieve Document Comments</h1>
       <span className="display-block text-primary-vivid">Status: {status}</span>
 
@@ -58,17 +58,20 @@ const Home = () => {
       />
 
       {comments.length ? (
-        <div className="usa-table--compact margin-top-3" tabIndex="0">
+        <div
+          className="usa-table--compact margin-top-5 border-top-1px padding-top-1"
+          tabIndex="0"
+        >
           <TableFilters
-            onChange={(e) => setSearchTerm(e.target.value)}
-            searchTerm={searchTerm}
+            onChange={(e) => setfilterTerm(e.target.value)}
+            filterTerm={filterTerm}
           />
           {filteredComments.length ? (
             <Table comments={filteredComments} />
           ) : null}
         </div>
       ) : null}
-    </>
+    </div>
   );
 };
 

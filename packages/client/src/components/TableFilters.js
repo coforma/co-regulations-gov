@@ -1,20 +1,20 @@
 import React from 'react';
 
-const TableFilters = ({ onChange, searchTerm }) => {
+const TableFilters = ({ onChange, filterTerm }) => {
   return (
     <form>
-      <label className="usa-label" htmlFor="searchTerm">
-        Search
+      <label className="usa-label" htmlFor="filterTerm">
+        Filter
       </label>
       <input
         className="usa-input"
-        id="searchTerm"
-        name="searchTerm"
+        id="filterTerm"
+        name="filterTerm"
         onChange={onChange}
         placeholder=""
         required
         type="text"
-        value={searchTerm}
+        value={filterTerm}
       />
     </form>
   );

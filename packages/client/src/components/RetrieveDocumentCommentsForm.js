@@ -42,6 +42,7 @@ const RetrieveDocumentCommentsForm = ({
       />
       <input
         className="usa-button"
+        disabled={!documentId}
         onClick={handleSubmit}
         type="submit"
         value="Submit"
