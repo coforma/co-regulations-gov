@@ -12,7 +12,9 @@ const server = http.createServer(app);
 server.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });
-server.on('error', (error) => console.log({ error }));
+server.on('error', (error) => {
+  console.log({ error });
+});
 app.use(logger('dev'));
 app.use(express.json());
 app.use(
@@ -24,10 +26,6 @@ app.use(cors());
 
 // Sockets
 const io = require('socket.io')(server, { cors: { origin: '*' } });
-
-io.on('connection', (client) => {
-  client.send(client.id);
-});
 
 // Queue
 const q = new Queue(async (task, cb) => {
