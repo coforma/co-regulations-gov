@@ -1,0 +1,68 @@
+body {
+  margin: 0;
+  padding: 50px;
+  font: 16px Helvetica, Arial, sans-serif;
+}
+
+form {
+  margin: 60px 0;
+}
+
+label {
+  display: block;
+  margin-bottom: 4px;
+}
+
+input {
+  border: 1px solid black;
+  border-radius: 0;
+  padding: 10px;
+}
+
+input[type='submit'] {
+  background: black;
+  border-right: none;
+  color: white;
+}
+
+input[type='text'] {
+  background: white;
+  border-right: none;
+}
+
+.status {
+  color: blue;
+}
+
+.table-container {
+  overflow: scroll;
+}
+
+table {
+  margin: 0 auto;
+  color: #333;
+  background: white;
+  border: 1px solid grey;
+  border-collapse: collapse;
+}
+
+table caption {
+  padding: 0.5em;
+}
+table th,
+table td {
+  padding: 0.5em;
+  border: 1px solid lightgrey;
+}
+tbody tr:nth-of-type(odd) {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+table caption {
+  padding: 0.5em;
+}
+th,
+td {
+  padding: 0.5em;
+  border: 1px solid grey;
+}

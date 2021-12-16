@@ -3,7 +3,7 @@ require('dotenv').config();
 
 const fs = require('fs');
 const jsonexport = require('jsonexport');
-const { getDocumentComments } = require('./server/services/comments');
+const { getDocumentComments } = require('./services/comments');
 
 const documentId = process.argv.slice(2)[0];
 
