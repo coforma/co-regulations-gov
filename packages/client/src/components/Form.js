@@ -18,12 +18,15 @@ const Form = () => {
     socket.on('comment', (data) => {
       // overwhelming the browser in this useEffect hook... consider alternatives
       // setComments([...comments, data]);
-      console.log(data);
     });
 
     socket.on('complete', (data) => {
       setComments(data.comments);
-      setStatus(data.error ? data.error.message : 'Complete');
+      if (data?.error?.code === 'OVER_RATE_LIMIT') {
+        setStatus('You have exceeded your rate limit. Try again later.');
+      } else {
+        setStatus(data.error ? data.error.message : 'Complete');
+      }
     });
   }, [comments, socket]);
 
@@ -42,7 +45,6 @@ const Form = () => {
       method: 'POST',
     })
       .then((response) => response.json())
-      .then((data) => console.log({ data }))
       .catch((error) => console.error('Error:', error));
   };
 
@@ -85,6 +87,7 @@ const Form = () => {
           <table className="usa-table" id="table">
             <thead>
               <tr>
+                <td>ID</td>
                 {/* <td>Address 1</td> */}
                 {/* <td>Address 2</td> */}
                 {/* <td>Agency ID</td> */}
@@ -135,8 +138,10 @@ const Form = () => {
             </thead>
             <tbody>
               {comments.map((comment) => {
+                if (!comment.objectId) return null;
                 return (
                   <tr key={comment.objectId}>
+                    <td>{comment.objectId}</td>
                     {/* <td>{comment.category}</td> */}
                     {/* <td>{comment.city}</td> */}
                     <td>{comment.comment}</td>
