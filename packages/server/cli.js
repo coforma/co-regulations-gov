@@ -40,7 +40,9 @@ const documentId = process.argv.slice(2)[0];
           console.log('An error occured while writing JSON Object to File.');
           return console.log(err);
         }
-        console.log('JSON file has been saved.');
+        console.log(
+          `JSON file has been saved as ./output/${documentId}-output.json`
+        );
       }
     );
 
@@ -51,7 +53,9 @@ const documentId = process.argv.slice(2)[0];
           console.log('An error occured while converting the JSON to CSV.');
           return console.log(err);
         }
-        console.log('CSV file has been saved.');
+        console.log(
+          `CSV file has been saved as ./output/${documentId}-output.csv`
+        );
       });
     });
   } catch (error) {
