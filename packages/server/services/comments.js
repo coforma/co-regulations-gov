@@ -5,13 +5,12 @@ const { API_KEY, COMMENTS_URL, DELAY } = dotenv;
 
 const getDocumentComments = async ({ onReceiveComment, documentId }) => {
   const commentsData = await getAllCommentsData(documentId);
-  const { error } = commentsData;
 
   // handles OVER_RATE_LIMIT
-  if (error) {
+  if (commentsData.error) {
     return {
       comments: [],
-      error,
+      error: commentsData.error,
     };
   }
 
@@ -44,17 +43,20 @@ const getAllCommentsData = async (documentId) => {
     };
   }
 
-  const { totalPages } = result?.meta;
-  const subsequentPages = Array(totalPages - 1)
-    .fill()
-    .map((_, i) => i + 2);
+  const totalPages = result?.meta?.totalPages;
+
+  const subsequentPages = totalPages
+    ? Array(totalPages - 1)
+        .fill()
+        .map((_, i) => i + 2)
+    : [];
   const subsequentPageData = await Promise.all(
     subsequentPages.flatMap(async (page) => {
-      const { data } = await requestCommentsPage({
+      const result = await requestCommentsPage({
         page,
         documentId,
       });
-      return data;
+      return result?.data;
     })
   );
   return [...firstPageData, ...subsequentPageData].flatMap(
@@ -63,8 +65,8 @@ const getAllCommentsData = async (documentId) => {
 };
 
 const requestCommentDetails = async (url) => {
-  const { data } = await utils.makeRequest(`${url}?api_key=${API_KEY}`);
-  return data.attributes;
+  const response = await utils.makeRequest(`${url}?api_key=${API_KEY}`);
+  return response?.data?.attributes;
 };
 
 const requestCommentsPage = async ({ documentId, page }) => {

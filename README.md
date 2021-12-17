@@ -7,37 +7,37 @@
 ```sh
 $ git clone git@github.com:coforma/co-regulations-gov.git
 $ cd co-regulations-gov
-$ npm install
+$ yarn install
 ```
 
-### API KEY
+### API Key & Environment Variables
 
 1. Go to https://open.gsa.gov/api/regulationsgov/ and request an API KEY. The API KEY should arrive by email within a few minutes.
 
-2. Make a copy of `./dev.env` as `/.env` and add your API KEY.
+2. In `./packages/server`, make a copy of `./packages/server/.env-example` as `./packages/server/.env` and add your API KEY.
+
+3. In `./packages/client`, make a copy of `./packages/client/.env-example` as `./packages/client/.env`
 
 ## Web Application Usage
 
 You'll need the parent Document ID which may be obtained by navigating to that particular Document on regulations.gov.
 
-Then, in the project folder, run:
+Then, in the project root, run:
 
 ```sh
-$ npm start
+$ yarn start
 ```
 
 You can now use the interface at: http://localhost:3000/
 
-Try `CMS-2021-0168-0001` to test.
-
-**Note:** The script might take awhile to run, due to adherence to the API's rate limits.
+Try `NHTSA-2021-0001` to test.
 
 ## CLI
 
-Running the following command:
+Running the following command in the project root:
 
 ```sh
-$  npm run cli {DOCUMENT_ID}
+$  yarn cli {DOCUMENT_ID}
 ```
 
 Will output the results to `output.csv` and `output.json` in the project root.
@@ -48,6 +48,6 @@ Though the script does account for rate limits, it doesn't do so exhaustively. T
 
 ### Feedback
 
-We welcome any/all feedback/comments, including the creation of Issues and/or Pull requests to this repository. 
+We welcome any/all feedback/comments, including the creation of Issues and/or Pull requests to this repository.
 
 Please direct any non-code feedback to: https://coforma.io/connect/
