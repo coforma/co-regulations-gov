@@ -9,6 +9,10 @@ const documentId = process.argv.slice(2)[0];
 
 // Let's go!
 (async () => {
+  if (!documentId) {
+    console.log('A document ID argument is required.');
+    return null;
+  }
   try {
     const data = await getDocumentComments({
       onReceiveComment: (comment) =>
@@ -24,7 +28,7 @@ const documentId = process.argv.slice(2)[0];
 
     // write the results to JSON
     fs.writeFile(
-      'output.json',
+      `output/${documentId}-output.json`,
       JSON.stringify(data.comments, null, 4),
       'utf8',
       function (err) {
@@ -39,13 +43,18 @@ const documentId = process.argv.slice(2)[0];
     // write the results to CSV
     jsonexport(data.comments, { rowDelimiter: ',' }, function (err, csv) {
       if (err) return console.error(err);
-      fs.writeFile('output.csv', csv, 'utf8', function (err) {
-        if (err) {
-          console.log('An error occured while converting the JSON to CSV.');
-          return console.log(err);
+      fs.writeFile(
+        `output/${documentId}-output.csv`,
+        csv,
+        'utf8',
+        function (err) {
+          if (err) {
+            console.log('An error occured while converting the JSON to CSV.');
+            return console.log(err);
+          }
+          console.log('CSV file has been saved.');
         }
-        console.log('CSV file has been saved.');
-      });
+      );
     });
   } catch (error) {
     throw error;

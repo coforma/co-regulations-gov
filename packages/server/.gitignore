@@ -12,3 +12,5 @@ node_modules
 # generated files
 output.csv
 output.json
+
+output/*
