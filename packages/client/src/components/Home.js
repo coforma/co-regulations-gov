@@ -7,9 +7,23 @@ import TableFilters from './TableFilters';
 
 const Home = () => {
   const socket = useContext(SocketContext);
+
   const [clientId, setClientId] = useState(null);
   const [comments, setComments] = useState([]);
   const [filterTerm, setfilterTerm] = useState('');
+  const [selectedProperties, setSelectedProperties] = useState([
+    'objectId',
+    'title',
+    'comment',
+    'commentOnDocumentId',
+    'docketId',
+    'documentType',
+    'firstName',
+    'lastName',
+    'organization',
+    'postedDate',
+    'receiveDate',
+  ]);
   const [status, setStatus] = useState('Ready');
 
   useEffect(() => {
@@ -17,8 +31,15 @@ const Home = () => {
       setClientId(socket.id);
     });
 
-    socket.on('comment', (data) => {
-      setComments((previous) => [...previous, data]);
+    socket.on('comment', (comment) => {
+      setComments((previous) => [
+        ...previous,
+        {
+          ...comment,
+          postedDate: new Date(comment.postedDate),
+          receiveDate: new Date(comment.receiveDate),
+        },
+      ]);
     });
 
     socket.on('complete', (data) => {
@@ -42,16 +63,21 @@ const Home = () => {
           // checks to see if any value contains the filter string
           return commentString.includes(filterTerm.toLowerCase());
         })
-        .map((comment) => ({
-          ...comment,
-          // convert dates for sortings and formatting
-          postedDate: new Date(comment.postedDate),
-          receiveDate: new Date(comment.receiveDate),
-        }))
         // sorts by postedDate by default
         .sort((a, b) => b.postedDate - a.postedDate)
     );
   }, [comments, filterTerm]);
+
+  const handleSelectColumn = (e) => {
+    const containsValue = selectedProperties.includes(e.target.value);
+    if (containsValue) {
+      setSelectedProperties((prev) => [
+        ...prev.filter((v) => v !== e.target.value),
+      ]);
+    } else {
+      setSelectedProperties((prev) => [...prev, e.target.value]);
+    }
+  };
 
   return (
     <div className="padding-10">
@@ -72,16 +98,18 @@ const Home = () => {
       />
 
       {comments.length ? (
-        <div
-          className="usa-table--compact margin-top-5 border-top-1px padding-top-1"
-          tabIndex="0"
-        >
+        <div className="margin-top-5 padding-top-1">
           <TableFilters
-            onChange={(e) => setfilterTerm(e.target.value)}
+            handleSearchInput={(e) => setfilterTerm(e.target.value)}
+            handleSelectColumn={handleSelectColumn}
             filterTerm={filterTerm}
+            selectedProperties={selectedProperties}
           />
           {filteredSortedComments.length ? (
-            <Table comments={filteredSortedComments} />
+            <Table
+              comments={filteredSortedComments}
+              selectedProperties={selectedProperties}
+            />
           ) : null}
         </div>
       ) : null}
