@@ -40,8 +40,7 @@ const TableFilters = ({
             }}
           >
             {Object.entries(commentProperties).map((entry) => {
-              const key = entry[0];
-              const label = entry[1];
+              const [key, label] = entry;
               return (
                 <div className="usa-checkbox" key={key}>
                   <input

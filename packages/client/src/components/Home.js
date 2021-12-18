@@ -12,17 +12,13 @@ const Home = () => {
   const [comments, setComments] = useState([]);
   const [filterTerm, setfilterTerm] = useState('');
   const [selectedProperties, setSelectedProperties] = useState([
-    'objectId',
+    'id',
     'title',
     'comment',
-    'commentOnDocumentId',
-    'docketId',
-    'documentType',
     'firstName',
     'lastName',
     'organization',
     'postedDate',
-    'receiveDate',
   ]);
   const [status, setStatus] = useState('Ready');
 

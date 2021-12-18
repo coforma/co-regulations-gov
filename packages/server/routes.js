@@ -8,8 +8,6 @@ module.exports = (app, q) => {
   app.post('/comments', (req, res) => {
     const { clientId, documentId } = req.body;
     q.push({ clientId, documentId });
-
-    console.log({ clientId, documentId });
     res.json({ clientId, documentId });
   });
 

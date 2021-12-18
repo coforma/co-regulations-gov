@@ -6,7 +6,7 @@ const { API_KEY, COMMENTS_URL, DELAY } = dotenv;
 const getDocumentComments = async ({ onReceiveComment, documentId }) => {
   const commentsData = await getAllCommentsData(documentId);
 
-  // handles OVER_RATE_LIMIT
+  // handle OVER_RATE_LIMIT
   if (commentsData.error) {
     return {
       comments: [],
@@ -14,25 +14,30 @@ const getDocumentComments = async ({ onReceiveComment, documentId }) => {
     };
   }
 
-  const commentsLinks = getLinks(commentsData);
-
   const comments = await Promise.all(
-    commentsLinks.map(async (link) => {
-      const comment = await requestCommentDetails(link);
-      onReceiveComment(comment);
+    commentsData.map(async (comment) => {
+      const { id, link } = comment;
+      const { data, included } = await requestComment(link);
+      const result = {
+        attachments: included,
+        id,
+        ...data.attributes,
+      };
+      onReceiveComment(result);
       await new Promise((resolve) => setTimeout(resolve, DELAY));
-      return comment;
+      return result;
     })
   );
+
   return {
     comments,
   };
 };
 
 const getAllCommentsData = async (documentId) => {
-  const result = await requestCommentsPage({
-    page: 1,
+  const result = await requestDocumentCommentsPage({
     documentId,
+    pageNumber: 1,
   });
   const firstPageData = result.data;
 
@@ -51,36 +56,35 @@ const getAllCommentsData = async (documentId) => {
         .map((_, i) => i + 2)
     : [];
   const subsequentPageData = await Promise.all(
-    subsequentPages.flatMap(async (page) => {
-      const result = await requestCommentsPage({
-        page,
+    subsequentPages.flatMap(async (pageNumber) => {
+      const result = await requestDocumentCommentsPage({
         documentId,
+        pageNumber,
       });
       return result?.data;
     })
   );
-  return [...firstPageData, ...subsequentPageData].flatMap(
-    (comment) => comment
-  );
+  return [...firstPageData, ...subsequentPageData].flatMap((comment) => ({
+    id: comment.id,
+    link: comment.links?.self,
+  }));
 };
 
-const requestCommentDetails = async (url) => {
-  const response = await utils.makeRequest(`${url}?api_key=${API_KEY}`);
-  return response?.data?.attributes;
-};
-
-const requestCommentsPage = async ({ documentId, page }) => {
+const requestComment = async (url) => {
   return await utils.makeRequest(
-    `${COMMENTS_URL}?filter[searchTerm]=${documentId}&api_key=${API_KEY}&page[number]=${page}`
+    `${url}?include=attachments&api_key=${API_KEY}`
   );
 };
 
-const getLinks = (comments) => comments.map((comment) => comment.links?.self);
+const requestDocumentCommentsPage = async ({ documentId, pageNumber }) => {
+  return await utils.makeRequest(
+    `${COMMENTS_URL}?filter[searchTerm]=${documentId}&api_key=${API_KEY}&page[number]=${pageNumber}`
+  );
+};
 
 module.exports = {
   getAllCommentsData,
   getDocumentComments,
-  getLinks,
-  requestCommentDetails,
-  requestCommentsPage,
+  requestComment,
+  requestDocumentCommentsPage,
 };
