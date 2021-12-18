@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { SocketContext } from '../context/socket';
 
-import RetrieveDocumentCommentsForm from './RetrieveDocumentCommentsForm';
-import Table from './Table';
-import TableFilters from './TableFilters';
+import RetrieveDocumentCommentsForm from '../components/RetrieveDocumentCommentsForm';
+import Table from '../components/Table';
+import Filters from '../components/Filters';
 
 const Home = () => {
   const socket = useContext(SocketContext);
@@ -95,7 +95,7 @@ const Home = () => {
 
       {comments.length ? (
         <div className="margin-top-5 padding-top-1">
-          <TableFilters
+          <Filters
             handleSearchInput={(e) => setfilterTerm(e.target.value)}
             handleSelectColumn={handleSelectColumn}
             filterTerm={filterTerm}
