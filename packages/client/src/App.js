@@ -1,7 +1,7 @@
 import React from 'react';
 import { socket, SocketContext } from './context/socket';
 
-import Home from './components/Home';
+import Home from './features/Home';
 
 const App = () => (
   <SocketContext.Provider value={socket}>
