@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { commentProperties, formatDate } from '../utils';
 
 const TableDataCell = ({ comment, property }) => {
@@ -7,13 +7,10 @@ const TableDataCell = ({ comment, property }) => {
     return <td>{formatDate(comment[property])}</td>;
   }
   // handle attachments
-  if (
-    property === 'comment' &&
-    comment[property] === 'See attached file(s)' &&
-    comment.attachments.length
-  ) {
+  if (property === 'comment' && comment.attachments.length) {
     return (
       <td>
+        <p>{comment.comment}</p>
         {comment.attachments.map((attachment) => {
           const { attributes } = attachment;
           if (attributes.fileFormats.length) {
