@@ -12,7 +12,6 @@ const Home = () => {
   const [comments, setComments] = useState([]);
   const [filterTerm, setfilterTerm] = useState('');
   const [selectedProperties, setSelectedProperties] = useState([
-    'id',
     'title',
     'comment',
     'firstName',

@@ -44,6 +44,7 @@ const Table = ({ comments = [], selectedProperties = [] }) => {
       <table className="usa-table">
         <thead>
           <tr>
+            <td>ID</td>
             {selectedProperties.map((prop) => (
               <td key={prop}>{commentProperties[prop]}</td>
             ))}
@@ -52,6 +53,15 @@ const Table = ({ comments = [], selectedProperties = [] }) => {
         <tbody>
           {comments.map((comment) => (
             <tr key={comment.objectId}>
+              <td>
+                <a
+                  href={`https://www.regulations.gov/comment/${comment.id}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {comment.id}
+                </a>
+              </td>
               {selectedProperties.map((property) => (
                 <TableDataCell
                   key={property}

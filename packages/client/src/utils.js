@@ -21,7 +21,6 @@ export const commentProperties = {
   firstName: 'First Name',
   govAgency: 'Government Agency',
   govAgencyType: 'Government Agency Type',
-  id: 'Id',
   lastName: 'Last Name',
   legacyId: 'Legacy Id',
   modifyDate: 'Modify Date',
