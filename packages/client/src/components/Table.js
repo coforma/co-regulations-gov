@@ -40,7 +40,7 @@ const TableDataCell = ({ comment, property }) => {
 
 const Table = ({ comments = [], selectedProperties = [] }) => {
   return (
-    <div className="usa-table--compact" tabIndex="0">
+    <div className="usa-table-container--scrollable" tabIndex="0">
       <table className="usa-table">
         <thead>
           <tr>
