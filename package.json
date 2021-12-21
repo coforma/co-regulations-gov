@@ -8,6 +8,9 @@
     "prettier": "^2.5.1"
   },
   "description": "Tool for grabbing and collating comments on regulations from regulations.gov",
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "license": "ISC",
   "name": "co-regulations-gov",
   "private": true,
