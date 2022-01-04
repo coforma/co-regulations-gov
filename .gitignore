@@ -2,9 +2,5 @@
 **.log
 *.log
 cache
-
-# dependencies
 node_modules
-
-# env
 .env
