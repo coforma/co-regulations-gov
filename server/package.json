@@ -9,6 +9,7 @@
     "express": "^4.17.1",
     "http-errors": "^1.8.0",
     "jsonexport": "^3.2.0",
+    "minimist": "^1.2.6",
     "morgan": "^1.10.0",
     "socket.io": "^4.3.1"
   },
@@ -18,7 +19,7 @@
   "license": "ISC",
   "name": "co-regulations-gov-server",
   "scripts": {
-    "cli": "node ./cli.js",
+    "cli": "node --experimental-fetch ./cli.js",
     "start": "node --experimental-fetch ./index.js",
     "start:dev": "nodemon --experimental-fetch ./index.js"
   },

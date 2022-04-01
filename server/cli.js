@@ -1,28 +1,35 @@
 #!/usr/bin/env node
+'use strict';
+
 require('dotenv').config();
 
-const fs = require('fs');
-const jsonexport = require('jsonexport');
-const path = require('path');
+var fs = require('fs');
+var jsonexport = require('jsonexport');
+var minimist = require('minimist');
+var path = require('path');
 
-const { getDocumentComments } = require('./controllers/comments');
+var { getDocumentComments } = require('./controllers/comments');
+var reqPath = path.join(__dirname, '../');
+var args = minimist(process.argv.slice(2), {
+  boolean: ['help'],
+  string: ['documentId'],
+});
 
-const reqPath = path.join(__dirname, '../');
-const fileName = (type) => `${reqPath}output/${documentId}-output.${type}`;
-
-const documentId = process.argv.slice(2)[0];
-
-// Let's go!
-(async () => {
-  if (!documentId) {
-    console.log('A document ID argument is required.');
-    return null;
+(async function () {
+  if (args.help) {
+    return printHelp();
+  } else if (!args.documentId) {
+    console.error('A documentId argument is required.');
+    console.log('');
+    return printHelp();
   }
+
   try {
-    const data = await getDocumentComments({
-      onReceiveComment: (comment) =>
-        console.log(`received ${comment.objectId}`),
-      documentId,
+    var data = await getDocumentComments({
+      onReceiveComment: function (comment) {
+        console.log(`received ${comment.objectId}`);
+      },
+      documentId: args.documentId,
     });
     if (data.error) {
       console.log({ error: data.error });
@@ -41,7 +48,7 @@ const documentId = process.argv.slice(2)[0];
           return console.log(err);
         }
         console.log(
-          `JSON file has been saved as ./output/${documentId}-output.json`
+          `JSON file has been saved as ./output/${args.documentId}-output.json`
         );
       }
     );
@@ -54,7 +61,7 @@ const documentId = process.argv.slice(2)[0];
           return console.log(err);
         }
         console.log(
-          `CSV file has been saved as ./output/${documentId}-output.csv`
+          `CSV file has been saved as ./output/${args.documentId}-output.csv`
         );
       });
     });
@@ -62,3 +69,16 @@ const documentId = process.argv.slice(2)[0];
     throw error;
   }
 })();
+
+function fileName(type) {
+  return `${reqPath}output/${args.documentId}-output.${type}`;
+}
+
+function printHelp() {
+  console.log('cli usage:');
+  console.log('  cli.js --documentId={STRING}');
+  console.log('');
+  console.log('--help                 print this help');
+  console.log('--documentId={STRING}  a regulations.gov Document ID');
+  console.log('');
+}

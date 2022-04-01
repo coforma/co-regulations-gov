@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { commentProperties, formatDate } from '../utils';
 
 const TableDataCell = ({ comment, property }) => {
