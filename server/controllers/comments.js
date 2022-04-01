@@ -1,4 +1,4 @@
-const getDocumentComments = async ({ clientId, documentId, io, queue }) => {
+async function getDocumentComments({ clientId, documentId, io, queue }) {
   queue.push({ clientId, documentId });
 
   queue
@@ -12,7 +12,7 @@ const getDocumentComments = async ({ clientId, documentId, io, queue }) => {
     .on('empty', () => {
       console.log('Queue empty.');
     });
-};
+}
 
 module.exports = {
   getDocumentComments,

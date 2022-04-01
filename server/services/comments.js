@@ -43,10 +43,7 @@ async function getDocumentComments({ onReceiveComment, documentId }) {
 }
 
 async function getAllCommentsData(documentId) {
-  const result = await requestDocumentCommentsPage({
-    documentId,
-    pageNumber: 1,
-  });
+  const result = await requestDocumentCommentsPage(documentId, 1);
   const firstPageData = result.data;
 
   if (firstPageData.error) {
@@ -65,10 +62,7 @@ async function getAllCommentsData(documentId) {
     : [];
   const subsequentPageData = await Promise.all(
     subsequentPages.flatMap(async (pageNumber) => {
-      const result = await requestDocumentCommentsPage({
-        documentId,
-        pageNumber,
-      });
+      const result = await requestDocumentCommentsPage(documentId, pageNumber);
       return result?.data;
     })
   );
@@ -82,7 +76,7 @@ async function requestComment(url) {
   return await makeRequest(`${url}?include=attachments&api_key=${API_KEY}`);
 }
 
-async function requestDocumentCommentsPage({ documentId, pageNumber }) {
+async function requestDocumentCommentsPage(documentId, pageNumber) {
   return await makeRequest(
     `${COMMENTS_URL}?filter[searchTerm]=${documentId}&api_key=${API_KEY}&page[number]=${pageNumber}`
   );
@@ -92,5 +86,4 @@ module.exports = {
   getAllCommentsData,
   getDocumentComments,
   requestComment,
-  requestDocumentCommentsPage,
 };

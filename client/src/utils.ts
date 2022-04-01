@@ -1,4 +1,7 @@
-export const commentProperties = {
+import { StringObject } from "./common";
+
+export const commentProperties: StringObject = {
+  attachments: "Attachments",
   address1: 'Address 1',
   address2: 'Address 2',
   agencyId: 'Agency Id',
@@ -21,6 +24,7 @@ export const commentProperties = {
   firstName: 'First Name',
   govAgency: 'Government Agency',
   govAgencyType: 'Government Agency Type',
+  id: "Id",
   lastName: 'Last Name',
   legacyId: 'Legacy Id',
   modifyDate: 'Modify Date',
@@ -46,5 +50,3 @@ export const commentProperties = {
   withdrawn: 'Withdrawn',
   zip: 'Zip',
 };
-
-export const formatDate = (date) => date.toLocaleString('en-US');

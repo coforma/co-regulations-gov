@@ -37,7 +37,7 @@ Try `NHTSA-2021-0001` to test.
 Running the following command in the project root:
 
 ```sh
-$  yarn cli {DOCUMENT_ID}
+$  yarn cli --documentId={DOCUMENT_ID}
 ```
 
 Will generate results to `output/output-{DOCUMENT_ID}.csv` & `output-{DOCUMENT_ID}.json`.
@@ -51,3 +51,4 @@ Though the script does account for rate limits, it doesn't do so exhaustively. T
 We welcome any/all feedback/comments, including the creation of Issues and/or Pull requests to this repository.
 
 Please direct any non-code feedback to: https://coforma.io/connect/
+

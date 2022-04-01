@@ -76,7 +76,7 @@ function fileName(type) {
 
 function printHelp() {
   console.log('cli usage:');
-  console.log('  cli.js --documentId={STRING}');
+  console.log('  cli.js --documentId={DOCUMENT_ID}');
   console.log('');
   console.log('--help                 print this help');
   console.log('--documentId={STRING}  a regulations.gov Document ID');
