@@ -1,7 +1,6 @@
 {
   "author": "Coforma",
   "dependencies": {
-    "axios": "^0.24.0",
     "better-queue": "^3.8.10",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
@@ -20,8 +19,8 @@
   "name": "co-regulations-gov-server",
   "scripts": {
     "cli": "node ./cli.js",
-    "start": "node ./index.js",
-    "start:dev": "nodemon ./index.js"
+    "start": "node --experimental-fetch ./index.js",
+    "start:dev": "nodemon --experimental-fetch ./index.js"
   },
   "version": "0.0.0"
 }

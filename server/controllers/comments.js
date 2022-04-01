@@ -1,11 +1,19 @@
 const dotenv = require('dotenv').config().parsed;
-const utils = require('../utils');
 
 const { API_KEY, COMMENTS_URL, DELAY } = dotenv;
 
+const makeRequest = async (url) => {
+  try {
+    const res = await fetch(url);
+    const json = await res.json();
+    return json;
+  } catch (error) {
+    return error.response;
+  }
+};
+
 const getDocumentComments = async ({ onReceiveComment, documentId }) => {
   const commentsData = await getAllCommentsData(documentId);
-
   // handle OVER_RATE_LIMIT
   if (commentsData.error) {
     return {
@@ -70,17 +78,13 @@ const getAllCommentsData = async (documentId) => {
   }));
 };
 
-const requestComment = async (url) => {
-  return await utils.makeRequest(
-    `${url}?include=attachments&api_key=${API_KEY}`
-  );
-};
+const requestComment = async (url) =>
+  await makeRequest(`${url}?include=attachments&api_key=${API_KEY}`);
 
-const requestDocumentCommentsPage = async ({ documentId, pageNumber }) => {
-  return await utils.makeRequest(
+const requestDocumentCommentsPage = async ({ documentId, pageNumber }) =>
+  await makeRequest(
     `${COMMENTS_URL}?filter[searchTerm]=${documentId}&api_key=${API_KEY}&page[number]=${pageNumber}`
   );
-};
 
 module.exports = {
   getAllCommentsData,

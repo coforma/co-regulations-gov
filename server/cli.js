@@ -5,7 +5,7 @@ const fs = require('fs');
 const jsonexport = require('jsonexport');
 const path = require('path');
 
-const { getDocumentComments } = require('./services/comments');
+const { getDocumentComments } = require('./controllers/comments');
 
 const reqPath = path.join(__dirname, '../');
 const fileName = (type) => `${reqPath}output/${documentId}-output.${type}`;

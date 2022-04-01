@@ -4,14 +4,16 @@ const http = require('http');
 const logger = require('morgan');
 const Queue = require('better-queue');
 
-const { getDocumentComments } = require('./services/comments');
+const { getDocumentComments } = require('./controllers/comments');
 
 const app = express();
 const port = process.env.PORT || '3001';
 const server = http.createServer(app);
+
 server.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });
+
 server.on('error', (error) => {
   console.log({ error });
 });
