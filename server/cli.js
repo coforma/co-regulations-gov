@@ -8,7 +8,7 @@ var jsonexport = require('jsonexport');
 var minimist = require('minimist');
 var path = require('path');
 
-var { getDocumentComments } = require('./controllers/comments');
+var commentsService = require('./services/comments.js');
 var reqPath = path.join(__dirname, '../');
 var args = minimist(process.argv.slice(2), {
   boolean: ['help'],
@@ -25,7 +25,7 @@ var args = minimist(process.argv.slice(2), {
   }
 
   try {
-    var data = await getDocumentComments({
+    var data = await commentsService.getDocumentComments({
       onReceiveComment: function (comment) {
         console.log(`received ${comment.objectId}`);
       },
