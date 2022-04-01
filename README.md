@@ -14,9 +14,9 @@ $ yarn install
 
 1. Go to https://open.gsa.gov/api/regulationsgov/ and request an API KEY. The API KEY should arrive by email within a few minutes.
 
-2. In `./packages/server`, make a copy of `./packages/server/.env-example` as `./packages/server/.env` and add your API KEY.
+2. In `./server`, make a copy of `./server/.env-example` as `./server/.env` and add your API KEY.
 
-3. In `./packages/client`, make a copy of `./packages/client/.env-example` as `./packages/client/.env`
+3. In `./client`, make a copy of `./client/.env-example` as `./client/.env`
 
 ## Web Application Usage
 
@@ -40,7 +40,7 @@ Running the following command in the project root:
 $  yarn cli {DOCUMENT_ID}
 ```
 
-Will output the results to `output.csv` and `output.json` in the project root.
+Will generate results to `output/output-{DOCUMENT_ID}.csv` & `output-{DOCUMENT_ID}.json`.
 
 ### Limitations
 
