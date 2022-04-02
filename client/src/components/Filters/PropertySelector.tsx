@@ -4,10 +4,11 @@ import { commentProperties } from '../../utils';
 interface PropertySelectorProps {
   handleSelectColumn: (e: React.FormEvent<HTMLInputElement>) => void;
   selectedProperties: string[];
+  width?: string;
 }
 
-const PropertySelector = ({ handleSelectColumn, selectedProperties }: PropertySelectorProps): JSX.Element => (
-  <form style={{ width: '50%' }}>
+const PropertySelector = ({ handleSelectColumn, selectedProperties, width = '50%' }: PropertySelectorProps): JSX.Element => (
+  <form style={{ width }}>
     <fieldset className="usa-fieldset">
       <legend className="usa-legend margin-bottom-3">Toggle Columns</legend>
       <div
@@ -19,6 +20,7 @@ const PropertySelector = ({ handleSelectColumn, selectedProperties }: PropertySe
       >
         {Object.entries(commentProperties).map((entry) => {
           const [key, label] = entry;
+          if (['attachments', 'id'].includes(key)) return null;
           return (
             <div className="usa-checkbox" key={key}>
               <input
