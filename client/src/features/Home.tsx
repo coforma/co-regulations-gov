@@ -1,17 +1,24 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { SocketContext } from '../context/socket';
 
+import { Comment } from "../common";
+import Filters from '../components/Filters';
 import RetrieveDocumentCommentsForm from '../components/RetrieveDocumentCommentsForm';
 import Table from '../components/Table';
-import Filters from '../components/Filters';
 
 const Home = () => {
   const socket = useContext(SocketContext);
 
-  const [clientId, setClientId] = useState(null);
-  const [comments, setComments] = useState([]);
+  const [clientId, setClientId] = useState<string | null>(null);
+  const [comments, setComments] = useState<Comment[]>([]);
   const [filterTerm, setfilterTerm] = useState('');
-  const [selectedProperties, setSelectedProperties] = useState([
+  const [selectedProperties, setSelectedProperties] = useState<Array<keyof Comment>>([
     'title',
     'comment',
     'firstName',
@@ -21,30 +28,35 @@ const Home = () => {
   ]);
   const [status, setStatus] = useState('Ready');
 
-  useEffect(() => {
-    socket.on('connect', () => {
-      setClientId(socket.id);
-    });
-
-    socket.on('comment', (comment) => {
-      setComments((previous) => [
-        ...previous,
-        {
-          ...comment,
-          postedDate: new Date(comment.postedDate),
-          receiveDate: new Date(comment.receiveDate),
-        },
-      ]);
-    });
-
-    socket.on('complete', (data) => {
-      if (data?.error?.code === 'OVER_RATE_LIMIT') {
-        setStatus('You have exceeded your rate limit. Try again later.');
-      } else {
-        setStatus(data.error ? data.error.message : 'Complete');
-      }
-    });
+  const handleConnect = useCallback(() => {
+    setClientId(socket.id);
   }, [socket]);
+
+  const handleComment = useCallback((comment: Comment) => {
+    setComments((previous: Comment[]) => [
+      ...previous,
+      comment,
+    ]);
+  }, []);
+
+  const handleComplete = useCallback((data) => {
+    if (data?.error?.code === 'OVER_RATE_LIMIT') {
+      setStatus('You have exceeded your rate limit. Try again later.');
+    } else {
+      setStatus(data.error ? data.error.message : 'Complete');
+    }
+  }, []);
+
+  useEffect(() => {
+    socket.on('comment', handleComment);
+    socket.on('complete', handleComplete);
+    socket.on('connect', handleConnect);
+    return () => {
+      socket.off('comment', handleComment);
+      socket.off('complete', handleComplete);
+      socket.off('connect', handleConnect);
+    };
+  }, [handleComment, handleComplete, handleConnect, socket]);
 
   const filteredSortedComments = useMemo(() => {
     if (!comments) return [];
@@ -58,12 +70,18 @@ const Home = () => {
           // checks to see if any value contains the filter string
           return commentString.includes(filterTerm.toLowerCase());
         })
-        // sorts by postedDate by default
-        .sort((a, b) => b.postedDate - a.postedDate)
+        .sort((a, b) => {
+          if (a.postedDate && b.postedDate) {
+            return +new Date(b.postedDate) - +new Date(a.postedDate);
+          }
+          return 0;
+        }
+        )
     );
   }, [comments, filterTerm]);
 
-  const handleSelectColumn = (e) => {
+  // TODO
+  const handleSelectColumn = (e: any): void => {
     const containsValue = selectedProperties.includes(e.target.value);
     if (containsValue) {
       setSelectedProperties((prev) => [
@@ -79,23 +97,28 @@ const Home = () => {
       <h1>Retrieve Document Comments</h1>
       <span className="display-block text-primary-vivid">Status: {status}</span>
 
-      <RetrieveDocumentCommentsForm
-        clientId={clientId}
-        onError={(error) => {
-          setStatus(`Error ${error}`);
-        }}
-        onSubmit={() => {
-          setComments([]);
-        }}
-        onSuccess={() => {
-          setStatus('Loading');
-        }}
-      />
+      {clientId && (
+        <RetrieveDocumentCommentsForm
+          clientId={clientId}
+          onError={(error) => {
+            setStatus(`Error ${error}`);
+          }}
+          onSubmit={() => {
+            setComments([]);
+          }}
+          onSuccess={() => {
+            setStatus('Loading');
+          }}
+        />
+      )}
 
       {comments.length ? (
         <div className="margin-top-5 padding-top-1">
           <Filters
-            handleSearchInput={(e) => setfilterTerm(e.target.value)}
+            handleSearchInput={(e: any) => {
+              // TODO: ^^^
+              setfilterTerm(e.target.value);
+            }}
             handleSelectColumn={handleSelectColumn}
             filterTerm={filterTerm}
             selectedProperties={selectedProperties}
