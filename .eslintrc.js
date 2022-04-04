@@ -1,9 +1,10 @@
 module.exports = {
   env: {
     browser: true,
+    es6: true,
     node: true,
   },
-  extends: ['prettier'],
+  extends: ['eslint:recommended', 'prettier'],
   plugins: ['prettier'],
   globals: {
     Atomics: 'readonly',
