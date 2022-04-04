@@ -1,10 +1,11 @@
-import React, {
+import {
   useCallback,
   useContext,
   useEffect,
   useMemo,
   useState,
 } from 'react';
+import { Socket } from "socket.io-client";
 import { SocketContext } from '../context/socket';
 
 import { Comment } from "../common";
@@ -13,7 +14,7 @@ import RetrieveDocumentCommentsForm from '../components/RetrieveDocumentComments
 import Table from '../components/Table';
 
 const Home = () => {
-  const socket = useContext(SocketContext);
+  const socket: Socket | undefined = useContext(SocketContext);
 
   const [clientId, setClientId] = useState<string | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
