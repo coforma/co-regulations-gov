@@ -1,17 +1,21 @@
-const dotenv = require('dotenv').config().parsed;
-const { API_KEY, COMMENTS_URL, DELAY } = dotenv;
+import dotenv from 'dotenv';
+import axios from 'axios';
+const parsedDotEnv = dotenv.config().parsed;
+const { API_KEY, COMMENTS_URL, DELAY } = parsedDotEnv;
 
-async function makeRequest(url) {
+export async function makeRequest(url) {
   try {
-    const res = await fetch(url);
-    const json = await res.json();
-    return json;
+    const res = await axios({ method: 'get', url });
+    return res.data;
   } catch (error) {
     return error.response;
   }
 }
 
-async function getDocumentComments({ onReceiveComment, documentId }) {
+export async function getDocumentCommentsService({
+  onReceiveComment,
+  documentId,
+}) {
   const commentsData = await getAllCommentsData(documentId);
 
   // handle OVER_RATE_LIMIT
@@ -42,9 +46,9 @@ async function getDocumentComments({ onReceiveComment, documentId }) {
   };
 }
 
-async function getAllCommentsData(documentId) {
+export async function getAllCommentsData(documentId) {
   const result = await requestDocumentCommentsPage(documentId, 1);
-  const firstPageData = result.data;
+  const firstPageData = result?.data;
 
   if (firstPageData.error) {
     return {
@@ -81,9 +85,3 @@ async function requestDocumentCommentsPage(documentId, pageNumber) {
     `${COMMENTS_URL}?filter[searchTerm]=${documentId}&api_key=${API_KEY}&page[number]=${pageNumber}`
   );
 }
-
-module.exports = {
-  getAllCommentsData,
-  getDocumentComments,
-  requestComment,
-};

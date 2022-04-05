@@ -1,9 +1,14 @@
-async function getDocumentComments({ clientId, documentId, io, queue }) {
+export async function getDocumentCommentsController({
+  clientId,
+  documentId,
+  io,
+  queue,
+}) {
   queue.push({ clientId, documentId });
 
   queue
     .on('task_finish', (_, result) => {
-      const { clientId, comments } = result;
+      const { comments } = result;
       io.to(clientId).emit('complete', comments);
     })
     .on('task_failed', (taskId, err, stats) => {
@@ -13,7 +18,3 @@ async function getDocumentComments({ clientId, documentId, io, queue }) {
       console.log('Queue empty.');
     });
 }
-
-module.exports = {
-  getDocumentComments,
-};
