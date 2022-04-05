@@ -27,7 +27,8 @@
     "server": "yarn workspace co-regulations-gov-api start",
     "server:dev": "yarn workspace co-regulations-gov-api start:dev",
     "start": "concurrently --kill-others-on-fail \"yarn server\"  \"yarn client\"",
-    "start:dev": "concurrently --kill-others-on-fail \"yarn server:dev\"  \"yarn client:dev\""
+    "start:dev": "concurrently --kill-others-on-fail \"yarn server:dev\"  \"yarn client:dev\"",
+    "utils": "yarn workspace co-regulations-gov-utils build"
   },
   "version": "0.0.0",
   "workspaces": [
