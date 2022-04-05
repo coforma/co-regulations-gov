@@ -19,17 +19,17 @@
     "url": "https://github.com/coforma/co-regulations-gov"
   },
   "scripts": {
-    "cli": "yarn workspace co-regulations-gov-server cli",
-    "client": "yarn workspace co-regulations-gov-client start",
-    "client:dev": "yarn workspace co-regulations-gov-client start",
-    "server": "yarn workspace co-regulations-gov-server start",
-    "server:dev": "yarn workspace co-regulations-gov-server start:dev",
+    "cli": "yarn workspace co-regulations-gov-api cli",
+    "client": "yarn workspace co-regulations-gov-ui start",
+    "client:dev": "yarn workspace co-regulations-gov-ui start",
+    "server": "yarn workspace co-regulations-gov-api start",
+    "server:dev": "yarn workspace co-regulations-gov-api start:dev",
     "start": "concurrently --kill-others-on-fail \"yarn server\"  \"yarn client\"",
     "start:dev": "concurrently --kill-others-on-fail \"yarn server:dev\"  \"yarn client:dev\""
   },
   "version": "0.0.0",
   "workspaces": [
-    "client",
-    "server"
+    "co-regulations-gov-api",
+    "co-regulations-gov-ui"
   ]
 }
