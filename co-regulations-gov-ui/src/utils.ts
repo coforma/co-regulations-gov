@@ -1,7 +1,7 @@
-import { StringObject } from "./common";
+import { StringObject } from 'co-regulations-gov-utils';
 
 export const commentProperties: StringObject = {
-  attachments: "Attachments",
+  attachments: 'Attachments',
   address1: 'Address 1',
   address2: 'Address 2',
   agencyId: 'Agency Id',
@@ -24,7 +24,7 @@ export const commentProperties: StringObject = {
   firstName: 'First Name',
   govAgency: 'Government Agency',
   govAgencyType: 'Government Agency Type',
-  id: "Id",
+  id: 'Id',
   lastName: 'Last Name',
   legacyId: 'Legacy Id',
   modifyDate: 'Modify Date',

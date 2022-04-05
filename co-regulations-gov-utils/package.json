@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "typescript": "^4.6.3"
+  },
+  "license": "MIT",
+  "main": "dist/index.js",
+  "name": "co-regulations-gov-utils",
+  "scripts": {
+    "build": "tsc --build"
+  },
+  "types": "dist/index.d.ts",
+  "version": "0.0.0"
+}

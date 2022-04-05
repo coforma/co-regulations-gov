@@ -8,7 +8,7 @@ import {
 import { Socket } from "socket.io-client";
 import { SocketContext } from '../context/socket';
 
-import { Comment } from "../common";
+import { Comment } from "co-regulations-gov-utils";
 import Filters from '../components/Filters';
 import RetrieveDocumentCommentsForm from '../components/RetrieveDocumentCommentsForm';
 import Table from '../components/Table';
