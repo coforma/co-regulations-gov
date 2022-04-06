@@ -28,6 +28,14 @@ const App = () => (
         >
           Regulations.gov
         </a>
+        &nbsp;|&nbsp;
+        <a
+          className="text-base-lightest"
+          href="https://open.gsa.gov/api/regulationsgov/"
+          target="blank"
+        >
+          openGSA
+        </a>
       </div>
     </footer>
   </>
