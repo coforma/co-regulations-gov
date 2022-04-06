@@ -30,7 +30,7 @@ const makeRequest = async (url: string) => {
   }
 };
 
-export const getDocumentCommentsService = async ({
+export const getDocumentComments = async ({
   onReceiveComment,
   documentId,
 }: {

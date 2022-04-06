@@ -3,7 +3,7 @@ import jsonexport from 'jsonexport';
 import minimist from 'minimist';
 import path from 'path';
 
-import { getDocumentCommentsService } from './services/comments.js';
+import { getDocumentComments } from './services/comments.js';
 
 const args = minimist(process.argv.slice(2), {
   boolean: ['help'],
@@ -33,7 +33,7 @@ const filePath = (type: string) =>
     return printHelp();
   }
 
-  const data = await getDocumentCommentsService({
+  const data = await getDocumentComments({
     onReceiveComment: (comment) => {
       console.log(`received ${comment.objectId}`);
     },

@@ -2,14 +2,14 @@ import Queue from 'better-queue';
 import { Server } from 'socket.io';
 
 import { Comment, Nullable } from 'types';
-import { getDocumentCommentsService } from '../services/comments';
+import { getDocumentComments } from '../services/comments';
 
 let queue: Nullable<Queue> = null;
 
 export const createCommentsQueue = (io: Server) => {
   queue = new Queue(async (task, cb) => {
     const { clientId, documentId } = task;
-    const comments = await getDocumentCommentsService({
+    const comments = await getDocumentComments({
       onReceiveComment: (comment: Comment) => {
         io.to(clientId).emit('comment', comment);
       },
@@ -19,7 +19,7 @@ export const createCommentsQueue = (io: Server) => {
   });
 };
 
-export async function getDocumentCommentsController({
+export async function retrieveComments({
   clientId,
   documentId,
   io,

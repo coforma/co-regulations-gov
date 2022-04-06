@@ -5,10 +5,7 @@ import http from 'http';
 import logger from 'morgan';
 import { Server } from 'socket.io';
 
-import {
-  createCommentsQueue,
-  getDocumentCommentsController,
-} from './controllers/comments';
+import { createCommentsQueue, retrieveComments } from './controllers/comments';
 
 const app = express();
 const port = process.env.PORT || '3001';
@@ -38,7 +35,7 @@ app.get('/', (_, res: Response) => {
 });
 app.post('/comments', (req, res) => {
   const { clientId, documentId } = req.body;
-  getDocumentCommentsController({ clientId, documentId, io });
+  retrieveComments({ clientId, documentId, io });
   res.json({ clientId, documentId });
 });
 app.use((_, __, next) => {
