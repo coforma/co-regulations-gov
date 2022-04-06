@@ -6,17 +6,15 @@ interface TableDataCellProps {
   property: keyof Comment;
 }
 
-const TableDataCell = ({ comment, property }: TableDataCellProps) => {
-  if (
-    property === 'postedDate' ||
-    property === 'modifyDate' ||
-    property === 'receiveDate' ||
-    property === 'postmarkDate'
-  ) {
-    const date = comment[property];
-    if (date) return <td>{new Date(date).toLocaleString('en-US')}</td>;
+const TableDataCell = ({
+  comment,
+  property,
+}: TableDataCellProps): JSX.Element => {
+  if (property.includes('Date')) {
+    const dateString = comment[property];
+    if (typeof dateString === 'string')
+      return <td>{new Date(dateString).toLocaleString('en-US')}</td>;
   }
-  // Attachments
   if (property === 'comment' && comment.attachments.length) {
     return (
       <td>
