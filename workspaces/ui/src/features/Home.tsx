@@ -87,7 +87,7 @@ const Home = () => {
   };
 
   return (
-    <div className="padding-10">
+    <div className="padding-4 desktop:padding-10">
       <h1>Retrieve Document Comments</h1>
       <span className="display-block text-primary-vivid">Status: {status}</span>
 

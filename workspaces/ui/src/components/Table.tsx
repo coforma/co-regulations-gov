@@ -1,4 +1,3 @@
-import React from 'react';
 import { commentProperties } from '../utils';
 import { Comment, CommentKeys } from 'types';
 

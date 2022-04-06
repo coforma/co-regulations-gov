@@ -1,12 +1,12 @@
-import React from 'react';
+import { ChangeEvent } from 'react';
 
 import PropertySelector from './PropertySelector';
 import Search from './Search';
 
 interface FiltersProps {
   filterTerm: string;
-  handleSearchInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSelectColumn: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSearchInput: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleSelectColumn: (e: ChangeEvent<HTMLInputElement>) => void;
   selectedProperties: string[];
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { SyntheticEvent, useState } from 'react';
 
 interface RetrieveDocumentCommentsFormProps {
   clientId: string;
@@ -15,7 +15,7 @@ const RetrieveDocumentCommentsForm = ({
 }: RetrieveDocumentCommentsFormProps): JSX.Element => {
   const [documentId, setDocumentId] = useState('');
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     onSubmit();
     fetch(`http://localhost:${process.env.REACT_APP_SERVER_PORT}/comments`, {

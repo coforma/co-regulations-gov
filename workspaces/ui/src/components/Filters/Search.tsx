@@ -1,8 +1,8 @@
-import React from 'react';
+import { ChangeEvent } from 'react';
 
 interface SearchProps {
   filterTerm: string;
-  handleSearchInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSearchInput: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Search = ({

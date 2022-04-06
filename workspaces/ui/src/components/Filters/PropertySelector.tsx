@@ -1,8 +1,8 @@
-import React from 'react';
+import { ChangeEvent } from 'react';
 import { commentProperties } from '../../utils';
 
 interface PropertySelectorProps {
-  handleSelectColumn: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSelectColumn: (e: ChangeEvent<HTMLInputElement>) => void;
   selectedProperties: string[];
 }
 
