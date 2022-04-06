@@ -1,5 +1,5 @@
-import dotenv from 'dotenv';
 import axios from 'axios';
+import dotenv from 'dotenv';
 import { Comment, CommentsRequest, Nullable } from 'types';
 
 dotenv.config();
@@ -23,7 +23,7 @@ const makeRequest = async (url: string) => {
     return res.data;
   } catch (error) {
     if (typeof error === 'string') {
-      return error.toUpperCase(); // works, `e` narrowed to string
+      return error.toUpperCase();
     } else if (error instanceof Error) {
       return error.message;
     }
@@ -39,7 +39,6 @@ export const getDocumentCommentsService = async ({
 }): Promise<CommentsRequest> => {
   const data = await getAllCommentsData(documentId);
 
-  // handle OVER_RATE_LIMIT
   if (data.error) {
     return {
       comments: [],
@@ -91,12 +90,14 @@ const getAllCommentsData = async (
         .fill(undefined)
         .map((_, i) => i + 2)
     : [];
+
   const subsequentPageData = await Promise.all(
     subsequentPages.flatMap(async (pageNumber) => {
       const result = await requestDocumentCommentsPage(documentId, pageNumber);
       return result?.data;
     })
   );
+
   return {
     comments: [...firstPageData, ...subsequentPageData].flatMap((comment) => ({
       id: comment.id,
