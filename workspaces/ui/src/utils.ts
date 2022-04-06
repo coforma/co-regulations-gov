@@ -1,6 +1,6 @@
-import { StringObject } from 'types';
+import { CommentKeys } from 'types';
 
-export const commentProperties: StringObject = {
+export const commentProperties: CommentKeys = {
   attachments: 'Attachments',
   address1: 'Address 1',
   address2: 'Address 2',

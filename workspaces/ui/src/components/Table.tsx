@@ -1,19 +1,19 @@
 import React from 'react';
 import { commentProperties } from '../utils';
-import { Comment, StringObject } from 'types';
+import { Comment, CommentKeys } from 'types';
 
 interface TableDataCellProps {
   comment: Comment;
   property: keyof Comment;
 }
 
-interface TableProps {
-  comments: Comment[];
-  selectedProperties: Array<keyof StringObject>
-}
-
 const TableDataCell = ({ comment, property }: TableDataCellProps) => {
-  if (property === 'postedDate' || property === 'modifyDate' || property === 'receiveDate' || property === 'postmarkDate') {
+  if (
+    property === 'postedDate' ||
+    property === 'modifyDate' ||
+    property === 'receiveDate' ||
+    property === 'postmarkDate'
+  ) {
     const date = comment[property];
     if (date) return <td>{new Date(date).toLocaleString('en-US')}</td>;
   }
@@ -46,13 +46,23 @@ const TableDataCell = ({ comment, property }: TableDataCellProps) => {
   return <td>{comment[property]}</td>;
 };
 
-const Table = ({ comments = [], selectedProperties = [] }: TableProps): JSX.Element => (
+interface TableProps {
+  comments: Comment[];
+  selectedProperties: Array<keyof CommentKeys>;
+}
+
+const Table = ({
+  comments = [],
+  selectedProperties = [],
+}: TableProps): JSX.Element => (
   <div className="usa-table-container--scrollable" tabIndex={0}>
     <table className="usa-table">
       <thead>
         <tr>
           <td>ID</td>
-          {selectedProperties.map((property) => <td key={property}>{commentProperties[property]}</td>)}
+          {selectedProperties.map((property) => (
+            <td key={property}>{commentProperties[property]}</td>
+          ))}
         </tr>
       </thead>
       <tbody>
@@ -67,7 +77,13 @@ const Table = ({ comments = [], selectedProperties = [] }: TableProps): JSX.Elem
                 {comment.id}
               </a>
             </td>
-            {selectedProperties.map((property) => <TableDataCell comment={comment} key={property} property={property} />)}
+            {selectedProperties.map((property) => (
+              <TableDataCell
+                comment={comment}
+                key={property}
+                property={property}
+              />
+            ))}
           </tr>
         ))}
       </tbody>

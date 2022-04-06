@@ -1,14 +1,8 @@
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
-import { Socket } from "socket.io-client";
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { Socket } from 'socket.io-client';
 import { SocketContext } from '../context/socket';
 
-import { Comment } from "types";
+import { Comment } from 'types';
 import Filters from '../components/Filters';
 import RetrieveDocumentCommentsForm from '../components/RetrieveDocumentCommentsForm';
 import Table from '../components/Table';
@@ -19,7 +13,9 @@ const Home = () => {
   const [clientId, setClientId] = useState<string | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
   const [filterTerm, setfilterTerm] = useState('');
-  const [selectedProperties, setSelectedProperties] = useState<Array<keyof Comment>>([
+  const [selectedProperties, setSelectedProperties] = useState<
+    (keyof Comment)[]
+  >([
     'title',
     'comment',
     'firstName',
@@ -35,10 +31,7 @@ const Home = () => {
   }, [socket]);
 
   const handleComment = useCallback((comment: Comment) => {
-    setComments((previous: Comment[]) => [
-      ...previous,
-      comment,
-    ]);
+    setComments((previous: Comment[]) => [...previous, comment]);
   }, []);
 
   const handleComplete = useCallback((data) => {
@@ -62,35 +55,32 @@ const Home = () => {
 
   const filteredSortedComments = useMemo(() => {
     if (!comments) return [];
-    return (
-      comments
-        .filter((comment) => {
-          // removes properties with null values, and converts to lowercase string
-          const commentString = JSON.stringify(
-            Object.values(comment).filter((c) => c !== null)
-          ).toLowerCase();
-          // checks to see if any value contains the filter string
-          return commentString.includes(filterTerm.toLowerCase());
-        })
-        .sort((a, b) => {
-          if (a.postedDate && b.postedDate) {
-            return +new Date(b.postedDate) - +new Date(a.postedDate);
-          }
-          return 0;
+    return comments
+      .filter((comment) => {
+        // removes properties with null values, and converts to lowercase string
+        const commentString = JSON.stringify(
+          Object.values(comment).filter((c) => c !== null)
+        ).toLowerCase();
+        // checks to see if any value contains the filter string
+        return commentString.includes(filterTerm.toLowerCase());
+      })
+      .sort((a, b) => {
+        if (a.postedDate && b.postedDate) {
+          return +new Date(b.postedDate) - +new Date(a.postedDate);
         }
-        )
-    );
+        return 0;
+      });
   }, [comments, filterTerm]);
 
-  // TODO
-  const handleSelectColumn = (e: any): void => {
-    const containsValue = selectedProperties.includes(e.target.value);
+  const handleSelectColumn = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value as keyof Comment;
+    const containsValue = selectedProperties.includes(value);
     if (containsValue) {
       setSelectedProperties((prev) => [
         ...prev.filter((v) => v !== e.target.value),
       ]);
     } else {
-      setSelectedProperties((prev) => [...prev, e.target.value]);
+      setSelectedProperties((prev) => [...prev, value]);
     }
   };
 
@@ -117,8 +107,7 @@ const Home = () => {
       {comments.length ? (
         <div className="margin-top-5 padding-top-1">
           <Filters
-            handleSearchInput={(e: any) => {
-              // TODO: ^^^
+            handleSearchInput={(e) => {
               setfilterTerm(e.target.value);
             }}
             handleSelectColumn={handleSelectColumn}

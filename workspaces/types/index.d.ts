@@ -59,4 +59,4 @@ export interface Comment {
   zip: string;
 }
 
-export type StringObject = { [Property in keyof Comment]: string };
+export type CommentKeys = { [Property in keyof Comment]: string };

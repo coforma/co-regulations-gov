@@ -5,8 +5,8 @@ import Search from './Search';
 
 interface FiltersProps {
   filterTerm: string;
-  handleSearchInput: (e: React.FormEvent<HTMLInputElement>) => void;
-  handleSelectColumn: (e: React.FormEvent<HTMLInputElement>) => void;
+  handleSearchInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSelectColumn: (e: React.ChangeEvent<HTMLInputElement>) => void;
   selectedProperties: string[];
 }
 
@@ -16,12 +16,14 @@ const Filters = ({
   handleSelectColumn,
   selectedProperties,
 }: FiltersProps): JSX.Element => (
-  <div className="display-flex bg-white padding-3 border-1px">
-    <Search filterTerm={filterTerm} handleSearchInput={handleSearchInput} />
-    <PropertySelector
-      handleSelectColumn={handleSelectColumn}
-      selectedProperties={selectedProperties}
-    />
+  <div className="bg-white padding-3 border-1px">
+    <div className="grid-row">
+      <Search filterTerm={filterTerm} handleSearchInput={handleSearchInput} />
+      <PropertySelector
+        handleSelectColumn={handleSelectColumn}
+        selectedProperties={selectedProperties}
+      />
+    </div>
   </div>
 );
 
