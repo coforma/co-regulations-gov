@@ -30,8 +30,8 @@
   "name": "co-regulations-gov-api",
   "scripts": {
     "build": "rimraf dist && tsc",
-    "cli": "node ./dist/cli.js",
-    "start": "node ./dist/index.js",
+    "cli": "yarn build && node ./dist/cli.js",
+    "start": "yarn build && node ./dist/index.js",
     "start:dev": "nodemon --watch 'src/**/*.ts' --watch 'src/**/*.js' --exec 'ts-node' src/index.ts"
   },
   "version": "0.0.1"

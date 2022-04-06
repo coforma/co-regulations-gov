@@ -1,15 +1,14 @@
 #!/usr/bin/env node
 'use strict';
 
-require('dotenv').config();
+import fs from 'fs';
+import jsonexport from 'jsonexport';
+import minimist from 'minimist';
+import path from 'path';
 
-var fs = require('fs');
-var jsonexport = require('jsonexport');
-var minimist = require('minimist');
-var path = require('path');
+import { getDocumentCommentsService } from './services/comments.js';
 
-const { getDocumentCommentsService } = require('./services/comments.js');
-var reqPath = path.join(__dirname, '../');
+var reqPath = path.join(__dirname, '../../');
 var args = minimist(process.argv.slice(2), {
   boolean: ['help'],
   string: ['documentId'],
