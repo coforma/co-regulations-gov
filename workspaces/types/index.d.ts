@@ -60,3 +60,8 @@ export interface Comment {
 }
 
 export type CommentKeys = { [Property in keyof Comment]: string };
+
+export interface CommentsRequest {
+  comments: Comment[];
+  error: Nullable<string>;
+}

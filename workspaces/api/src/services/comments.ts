@@ -1,12 +1,23 @@
 import dotenv from 'dotenv';
 import axios from 'axios';
-import { Comment, Nullable } from 'types';
+import { Comment, CommentsRequest, Nullable } from 'types';
 
 dotenv.config();
 
 const { API_KEY, COMMENTS_URL, DELAY } = process.env;
 
-async function makeRequest(url: string) {
+const requestComment = async (url: string) =>
+  makeRequest(`${url}?include=attachments&api_key=${API_KEY}`);
+
+const requestDocumentCommentsPage = async (
+  documentId: string,
+  pageNumber: number
+) =>
+  makeRequest(
+    `${COMMENTS_URL}?filter[searchTerm]=${documentId}&api_key=${API_KEY}&page[number]=${pageNumber}`
+  );
+
+const makeRequest = async (url: string) => {
   try {
     const res = await axios({ method: 'get', url });
     return res.data;
@@ -17,15 +28,15 @@ async function makeRequest(url: string) {
       return error.message;
     }
   }
-}
+};
 
-export async function getDocumentCommentsService({
+export const getDocumentCommentsService = async ({
   onReceiveComment,
   documentId,
 }: {
   onReceiveComment: (comment: Comment) => void;
   documentId: string;
-}) {
+}): Promise<CommentsRequest> => {
   const data = await getAllCommentsData(documentId);
 
   // handle OVER_RATE_LIMIT
@@ -53,13 +64,16 @@ export async function getDocumentCommentsService({
 
   return {
     comments,
+    error: null,
   };
-}
+};
 
-async function getAllCommentsData(documentId: string): Promise<{
+const getAllCommentsData = async (
+  documentId: string
+): Promise<{
   comments: { id: string; link: string }[];
   error: Nullable<string>;
-}> {
+}> => {
   const result = await requestDocumentCommentsPage(documentId, 1);
   const firstPageData = result?.data;
 
@@ -90,17 +104,4 @@ async function getAllCommentsData(documentId: string): Promise<{
     })),
     error: null,
   };
-}
-
-async function requestComment(url: string) {
-  return await makeRequest(`${url}?include=attachments&api_key=${API_KEY}`);
-}
-
-async function requestDocumentCommentsPage(
-  documentId: string,
-  pageNumber: number
-) {
-  return await makeRequest(
-    `${COMMENTS_URL}?filter[searchTerm]=${documentId}&api_key=${API_KEY}&page[number]=${pageNumber}`
-  );
-}
+};

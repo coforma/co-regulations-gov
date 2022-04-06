@@ -1,8 +1,8 @@
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { Socket } from 'socket.io-client';
 import { SocketContext } from '../context/socket';
 
-import { Comment } from 'types';
+import { Comment, CommentsRequest } from 'types';
 import Filters from '../components/Filters';
 import RetrieveDocumentCommentsForm from '../components/RetrieveDocumentCommentsForm';
 import Table from '../components/Table';
@@ -25,33 +25,35 @@ const Home = () => {
   ]);
   const [status, setStatus] = useState('Awaiting Connection');
 
-  const handleConnect = useCallback(() => {
-    setClientId(socket.id);
-    setStatus('Ready');
+  const io = useMemo(() => {
+    return {
+      comment: (comment: Comment) => {
+        setComments((previous: Comment[]) => [...previous, comment]);
+      },
+      complete: (data: CommentsRequest) => {
+        if (data.error === 'OVER_RATE_LIMIT') {
+          setStatus('You have exceeded your rate limit. Try again later.');
+        } else {
+          setStatus(data.error ? data.error : 'Complete');
+        }
+      },
+      connect: () => {
+        setClientId(socket.id);
+        setStatus('Ready');
+      },
+    };
   }, [socket]);
 
-  const handleComment = useCallback((comment: Comment) => {
-    setComments((previous: Comment[]) => [...previous, comment]);
-  }, []);
-
-  const handleComplete = useCallback((data) => {
-    if (data?.error?.code === 'OVER_RATE_LIMIT') {
-      setStatus('You have exceeded your rate limit. Try again later.');
-    } else {
-      setStatus(data.error ? data.error.message : 'Complete');
-    }
-  }, []);
-
   useEffect(() => {
-    socket.on('comment', handleComment);
-    socket.on('complete', handleComplete);
-    socket.on('connect', handleConnect);
+    socket.on('comment', io.comment);
+    socket.on('complete', io.complete);
+    socket.on('connect', io.connect);
     return () => {
-      socket.off('comment', handleComment);
-      socket.off('complete', handleComplete);
-      socket.off('connect', handleConnect);
+      socket.off('comment', io.comment);
+      socket.off('complete', io.complete);
+      socket.off('connect', io.connect);
     };
-  }, [handleComment, handleComplete, handleConnect, socket]);
+  }, [io, socket]);
 
   const filteredSortedComments = useMemo(() => {
     if (!comments) return [];

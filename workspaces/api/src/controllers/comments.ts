@@ -13,7 +13,6 @@ export async function getDocumentCommentsController({
   queue: Queue;
 }) {
   queue.push({ clientId, documentId });
-
   queue
     .on('task_finish', (_, result) => {
       io.to(clientId).emit('complete', result.comments);
