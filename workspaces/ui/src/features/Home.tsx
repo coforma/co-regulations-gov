@@ -8,7 +8,7 @@ import {
 import { Socket } from "socket.io-client";
 import { SocketContext } from '../context/socket';
 
-import { Comment } from "co-regulations-gov-utils";
+import { Comment } from "types";
 import Filters from '../components/Filters';
 import RetrieveDocumentCommentsForm from '../components/RetrieveDocumentCommentsForm';
 import Table from '../components/Table';
@@ -27,10 +27,11 @@ const Home = () => {
     'organization',
     'postedDate',
   ]);
-  const [status, setStatus] = useState('Ready');
+  const [status, setStatus] = useState('Awaiting Connection');
 
   const handleConnect = useCallback(() => {
     setClientId(socket.id);
+    setStatus('Ready');
   }, [socket]);
 
   const handleComment = useCallback((comment: Comment) => {

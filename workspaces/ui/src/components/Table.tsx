@@ -1,6 +1,6 @@
 import React from 'react';
 import { commentProperties } from '../utils';
-import { Comment, StringObject } from 'co-regulations-gov-utils';
+import { Comment, StringObject } from 'types';
 
 interface TableDataCellProps {
   comment: Comment;

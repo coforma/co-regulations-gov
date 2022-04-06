@@ -1,0 +1,8 @@
+{
+  "author": "Coforma",
+  "license": "ISC",
+  "name": "types",
+  "private": true,
+  "types": "index.d.ts",
+  "version": "0.0.1"
+}

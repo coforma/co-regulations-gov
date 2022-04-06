@@ -1,33 +1,43 @@
 import dotenv from 'dotenv';
 import axios from 'axios';
-const parsedDotEnv = dotenv.config().parsed;
-const { API_KEY, COMMENTS_URL, DELAY } = parsedDotEnv;
+import { Comment, Nullable } from 'types';
 
-export async function makeRequest(url) {
+dotenv.config();
+
+const { API_KEY, COMMENTS_URL, DELAY } = process.env;
+
+async function makeRequest(url: string) {
   try {
     const res = await axios({ method: 'get', url });
     return res.data;
   } catch (error) {
-    return error.response;
+    if (typeof error === 'string') {
+      return error.toUpperCase(); // works, `e` narrowed to string
+    } else if (error instanceof Error) {
+      return error.message;
+    }
   }
 }
 
 export async function getDocumentCommentsService({
   onReceiveComment,
   documentId,
+}: {
+  onReceiveComment: (comment: Comment) => void;
+  documentId: string;
 }) {
-  const commentsData = await getAllCommentsData(documentId);
+  const data = await getAllCommentsData(documentId);
 
   // handle OVER_RATE_LIMIT
-  if (commentsData.error) {
+  if (data.error) {
     return {
       comments: [],
-      error: commentsData.error,
+      error: data.error,
     };
   }
 
-  const comments = await Promise.all(
-    commentsData.map(async (comment) => {
+  const comments: Comment[] = await Promise.all(
+    data.comments.map(async (comment) => {
       const { id, link } = comment;
       const { data, included } = await requestComment(link);
       const result = {
@@ -36,7 +46,7 @@ export async function getDocumentCommentsService({
         ...data.attributes,
       };
       onReceiveComment(result);
-      await new Promise((resolve) => setTimeout(resolve, DELAY));
+      await new Promise((resolve) => setTimeout(resolve, Number(DELAY)));
       return result;
     })
   );
@@ -46,7 +56,10 @@ export async function getDocumentCommentsService({
   };
 }
 
-export async function getAllCommentsData(documentId) {
+async function getAllCommentsData(documentId: string): Promise<{
+  comments: { id: string; link: string }[];
+  error: Nullable<string>;
+}> {
   const result = await requestDocumentCommentsPage(documentId, 1);
   const firstPageData = result?.data;
 
@@ -61,7 +74,7 @@ export async function getAllCommentsData(documentId) {
 
   const subsequentPages = totalPages
     ? Array(totalPages - 1)
-        .fill()
+        .fill(undefined)
         .map((_, i) => i + 2)
     : [];
   const subsequentPageData = await Promise.all(
@@ -70,17 +83,23 @@ export async function getAllCommentsData(documentId) {
       return result?.data;
     })
   );
-  return [...firstPageData, ...subsequentPageData].flatMap((comment) => ({
-    id: comment.id,
-    link: comment.links?.self,
-  }));
+  return {
+    comments: [...firstPageData, ...subsequentPageData].flatMap((comment) => ({
+      id: comment.id,
+      link: comment.links?.self,
+    })),
+    error: null,
+  };
 }
 
-async function requestComment(url) {
+async function requestComment(url: string) {
   return await makeRequest(`${url}?include=attachments&api_key=${API_KEY}`);
 }
 
-async function requestDocumentCommentsPage(documentId, pageNumber) {
+async function requestDocumentCommentsPage(
+  documentId: string,
+  pageNumber: number
+) {
   return await makeRequest(
     `${COMMENTS_URL}?filter[searchTerm]=${documentId}&api_key=${API_KEY}&page[number]=${pageNumber}`
   );

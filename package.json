@@ -9,6 +9,9 @@
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.5.1"
   },
+  "devDependencies": {
+    "typescript": "^4.6.3"
+  },
   "description": "Tool for grabbing and collating comments on regulations from regulations.gov",
   "engines": {
     "node": ">=14.0.0"
@@ -24,16 +27,13 @@
     "api": "yarn workspace co-regulations-gov-api start",
     "api:dev": "yarn workspace co-regulations-gov-api start:dev",
     "cli": "yarn workspace co-regulations-gov-api cli",
-    "start": "yarn utils && concurrently --kill-others-on-fail \"yarn api\"  \"yarn ui\"",
-    "start:dev": "yarn utils && concurrently --kill-others-on-fail \"yarn api:dev\"  \"yarn ui:dev\"",
+    "start": "concurrently --kill-others-on-fail \"yarn api\"  \"yarn ui\"",
+    "start:dev": "concurrently --kill-others-on-fail \"yarn api:dev\"  \"yarn ui:dev\"",
     "ui": "yarn workspace co-regulations-gov-ui start",
-    "ui:dev": "yarn workspace co-regulations-gov-ui start",
-    "utils": "yarn workspace co-regulations-gov-utils build"
+    "ui:dev": "yarn workspace co-regulations-gov-ui start"
   },
   "version": "0.0.1",
   "workspaces": [
-    "co-regulations-gov-api",
-    "co-regulations-gov-ui",
-    "co-regulations-gov-utils"
+    "workspaces/*"
   ]
 }

@@ -1,4 +1,4 @@
-import { StringObject } from 'co-regulations-gov-utils';
+import { StringObject } from 'types';
 
 export const commentProperties: StringObject = {
   attachments: 'Attachments',

@@ -1,6 +1,3 @@
-#!/usr/bin/env node
-'use strict';
-
 import fs from 'fs';
 import jsonexport from 'jsonexport';
 import minimist from 'minimist';
@@ -8,11 +5,24 @@ import path from 'path';
 
 import { getDocumentCommentsService } from './services/comments.js';
 
-var reqPath = path.join(__dirname, '../../');
-var args = minimist(process.argv.slice(2), {
+const args = minimist(process.argv.slice(2), {
   boolean: ['help'],
   string: ['documentId'],
 });
+
+const reqPath = path.join(__dirname, '../../../');
+
+const messages = {
+  errorWriting: (fileType: string) =>
+    `An error occured while converting the JSON to ${fileType}.`,
+  successWriting: (fileType: string) =>
+    `${fileType} file has been saved as ./output/${
+      args.documentId
+    }-output.${fileType.toLowerCase()}`,
+};
+
+const filePath = (type: string) =>
+  `${reqPath}output/${args.documentId}-output.${type}`;
 
 (async function () {
   if (args.help) {
@@ -23,51 +33,41 @@ var args = minimist(process.argv.slice(2), {
     return printHelp();
   }
 
-  var data = await getDocumentCommentsService({
-    onReceiveComment: function (comment) {
+  const data = await getDocumentCommentsService({
+    onReceiveComment: (comment) => {
       console.log(`received ${comment.objectId}`);
     },
     documentId: args.documentId,
   });
-  if (data.error) {
-    console.log({ error: data.error });
-    return null;
-  }
+
+  if (data.error) return console.error(data.error);
 
   console.log(`There are ${data.comments.length} comments`);
 
   fs.writeFile(
-    fileName('json'),
+    filePath('json'),
     JSON.stringify(data.comments, null, 4),
     'utf8',
-    function (err) {
+    (err) => {
       if (err) {
-        console.log('An error occured while writing JSON Object to File.');
-        return console.log(err);
+        console.error(messages.errorWriting('File'));
+      } else {
+        console.log(messages.successWriting('JSON'));
       }
-      console.log(
-        `JSON file has been saved as ./output/${args.documentId}-output.json`
-      );
     }
   );
 
-  jsonexport(data.comments, { rowDelimiter: ',' }, function (err, csv) {
+  jsonexport(data.comments, { rowDelimiter: ',' }, (err, csv) => {
     if (err) return console.error(err);
-    fs.writeFile(fileName('csv'), csv, 'utf8', function (err) {
+    fs.writeFile(filePath('csv'), csv, 'utf8', (err) => {
       if (err) {
-        console.log('An error occured while converting the JSON to CSV.');
-        return console.log(err);
+        console.error(messages.errorWriting('CSV'));
+      } else {
+        console.log(messages.successWriting('CSV'));
       }
-      console.log(
-        `CSV file has been saved as ./output/${args.documentId}-output.csv`
-      );
     });
   });
 })();
-
-function fileName(type) {
-  return `${reqPath}output/${args.documentId}-output.${type}`;
-}
 
 function printHelp() {
   console.log('cli usage:');

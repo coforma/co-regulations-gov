@@ -14,9 +14,9 @@ $ yarn install
 
 1. Go to https://open.gsa.gov/api/regulationsgov/ and request an API KEY. The API KEY should arrive by email within a few minutes.
 
-2. In `./server`, make a copy of `./server/.env-example` as `./server/.env` and add your API KEY.
+2. In `./workspaces/api` make a copy of `.env-example` as `.env` and add your API KEY.
 
-3. In `./client`, make a copy of `./client/.env-example` as `./client/.env`
+3. In `./workspaces/ui`, make a copy of `.env-example` as `.env`
 
 ## Web Application Usage
 

@@ -3,11 +3,11 @@
     "composite": true,
     "declaration": true,
     "declarationMap": true,
-    "outDir": "dist",
-    "rootDir": "src",
+    "outDir": ".",
+    "rootDir": ".",
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true
   },
-  "include": ["src"]
+  "include": ["."]
 }

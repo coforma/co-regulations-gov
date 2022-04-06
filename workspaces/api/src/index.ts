@@ -6,7 +6,7 @@ import logger from 'morgan';
 import Queue from 'better-queue';
 import { Server } from 'socket.io';
 
-import { Comment } from 'co-regulations-gov-utils';
+import { Comment } from 'types';
 import { getDocumentCommentsController } from './controllers/comments';
 import { getDocumentCommentsService } from './services/comments';
 
